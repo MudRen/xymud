@@ -1,6 +1,6 @@
 ========================================================================
 Full Command Line: F:\Favorites\mudren-Lib-master\driver.exe config.ini 
-Boot Time: Fri Apr 09 18:40:17 2021
+Boot Time: Fri Apr 09 19:57:37 2021
 Version: fluffos v2019.20210304-10-ge3db3bb1 (Microsoft Windows)
 jemalloc Version: 5.2.1-0-gea6b3e973b477b8061e0076bb257dbd7f3faa756
 ICU Version: 68.2
@@ -14,27 +14,26 @@ Processing config file: config.ini
 	binary directory 
 *Warning: obsolete line in config file, please delete:
 	swap file 
-maximum local variables: invalid new value, resetting to default.
 New Debug log location: "log/debug.log".
 Initializing internal stuff ....
 Event backend in use: win32
 WARNING: Platform doesn't support eval limit!
 ==== Runtime Config Table ====
-time to clean up : 300 # default: 600
-time to reset : 1800 # default: 900
-time to swap : 900 # default: 300
+time to clean up : 600
+time to reset : 900
+time to swap : 300
 evaluator stack size : 3000 # default: 65536
-inherit chain size : 60 # default: 30
-maximum evaluation cost : 400000 # default: 30000000
+inherit chain size : 30
+maximum evaluation cost : 30000000
 maximum local variables : 64
 maximum call depth : 200 # default: 150
-maximum array size : 30000 # default: 15000
-maximum buffer size : 500000 # default: 400000
-maximum mapping size : 40000 # default: 150000
+maximum array size : 15000
+maximum buffer size : 400000
+maximum mapping size : 150000
 maximum string length : 1600000 # default: 200000
-maximum bits in a bitfield : 3600 # default: 12000
-maximum byte transfer : 30000 # default: 200000
-maximum read file size : 300000 # default: 200000
+maximum bits in a bitfield : 12000
+maximum byte transfer : 200000
+maximum read file size : 200000
 hash table size : 65536
 object table size : 65536 # default: 4096
 living hash table size : 4096 # default: 256
@@ -142,7 +141,7 @@ enable mssp : 1
 #define __PACKAGE_TRIM__ 
 #define __PACKAGE_UIDS__ 
 #define __PARSE_DEBUG__ 
-#define __PORT__ 8888
+#define __PORT__ 5555
 #define __PRIVS__ 
 #define __PROJECT_VERSION__ "fluffos v2019.20210304-10-ge3db3bb1"
 #define __RANDOMIZED_RESETS__ 
@@ -197,10 +196,11 @@ Loading preload files ...
 /adm/daemons/titled...
 /adm/daemons/questd...
 /adm/daemons/removed...
-Accepting telnet connections on 0.0.0.0:8888.
-Accepting websocket connections on 0.0.0.0:4001.
+Accepting telnet connections on 0.0.0.0:5555.
+Accepting telnet connections on 0.0.0.0:6666.
+Accepting websocket connections on 0.0.0.0:8888.
 Initializations complete.
 
-******** FATAL ERROR: SIGINT: Process interrupted
-FluffOS driver attempting to exit gracefully.
-crash() in master called successfully.  Aborting.
+closed external ports
+clear_call_outs: 6 leftover callouts cleared.
+clear_tick_events: 12 leftover events cleared.

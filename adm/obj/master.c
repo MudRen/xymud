@@ -3,14 +3,18 @@
 
 #define	INSTALL_CRASH_SAVE	1
 
-object connect()
+object connect(int port)
 {
         object login_ob;
         mixed err;
+        if (port == 5555)
+        {
+                set_encoding("GBK");
+        }
+        err = catch (login_ob = new (LOGIN_OB));
 
-        err = catch(login_ob = new(LOGIN_OB));
-
-        if (err) {
+        if (err)
+        {
                 write("现在有人正在修改使用者连线部份的程式，请待会再来。\n");
                 write(err);
                 destruct(this_object());

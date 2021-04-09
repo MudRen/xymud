@@ -11,7 +11,7 @@
 #define NEW_PLAYER_INFO			"/adm/etc/new_player"
 #define MOTD				"/adm/etc/motd"
 
-#define WIZLIST				"/adm/etc/notices"
+#define WIZLIST				"/adm/etc/wizlist"
 #define BANNED_ID			"/adm/etc/banned_id"
 
 #define START_ROOM			"/d/city/kezhan"
@@ -32,7 +32,7 @@
 // By Annihilator (05-26-95)
 #define ROBOT_CHECK			"/d/wiz/courthouse"
 
-// This defines the minimum wiz_level of users that are allowed to 
+// This defines the minimum wiz_level of users that are allowed to
 // enter the mud. Note players has wiz_level 0.
 #define WIZ_LOCK_LEVEL 0
 
@@ -46,4 +46,3 @@
 #define LOGIN_SITE   0
 
 #endif
-

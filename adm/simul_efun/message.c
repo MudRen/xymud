@@ -25,88 +25,97 @@ string _chinese_desc(string arg)
 // sort a chinese string (must be chinese), align the
 // string with then len. the prefix is used when the desc
 // will be lead by another string or space with length is prefix.
-string sort_string(string input, int width, int prefix)
+varargs string sort_string(string input, int width, int prefix)
 {
-        int i;
-        int sl;
-        int len;
-        int esc;
-        string result;
+    int i;
+    int sl;  // 字符串长度
+    int len; // 字符串宽度
+    int esc;
+    string result;
 
-        result = "";
-
-        len = prefix;
-        esc = 0;
-        sl = strlen(input);
-		reset_eval_cost(); 
-        for (i = 0; i < sl; i++)
+    result = "";
+    esc = 0;
+    if (!width) width = 78;
+    len = prefix;
+    sl = strlen(input);
+    for (i = 0; i < sl; i++)
+    {
+        if (len >= width && input[i] != '\n')
         {
-                if( len >= width && input[i] != '\n')
+            int k = i;
+            // ANSI颜色字符处理
+            if (input[i] == 27)
+                while (k < sl && input[k++] != 'm')
+                    ;
+
+            switch ((k < sl) ? input[k..k] : 0)
+            {
+            // 部分中英文符号不换行
+            case "’":   //8217
+            case "”":   //8221
+            case "、":  //12289
+            case "。":  //12290
+            case "！":  //65281
+            case "）":  //65289
+            case "，":  //65292
+            case "：":  //65306
+            case "；":  //65307
+            case "？":  //65311
+            case " ":   //32
+            case "!":   //33
+            case "”":   //34
+            case "'":   //34
+            case ")":   //41
+            case ",":   //44
+            case ".":   //46
+            case ":":   //58
+            case ";":   //59
+            case "?":   //63
+                if (k != i)
                 {
-                        int k;
-                        k = i;
-                        if( input[i] == 27)
-                                while (k < sl && input[k++] != 'm');
-
-                        switch ((k < sl - 1) ? input[k..k] : 0)
-                        {
-                        case "：":
-                        case "”":
-                        case "。":
-                        case "，":
-                        case "；":
-                        case "）":
-                        case " )":
-                        case "！":
-                        case "？":
-                        case "、":
-                                if( k != i)
-                                {
-                                        result += input[i..k];
-                                        i = k + 1;
-                                        continue;
-                                }
-                                break;
-                        default:
-                                len = 0;
-                                result += "\n";
-                                break;
-                        }
+                    result += input[i..k];
+                    i = k;
+                    continue;
                 }
-
-                if( input[i] == 27)
-                        esc = 1;
-
-                if( ! esc)
-                {
-                        if(input[i] > 160)
-                        {
-                                result += input[i..i];
-                                i ++;
-                                len += 2;
-                                continue;
-                        }
-                        if( input[i] == '\n')
-                        {
-                                result += "\n";
-                                len = 0;
-                                continue;
-                        }
-                }
-
-                result += input[i..i];
-                if( ! esc) len++;
-
-                if( esc && input[i] == 'm')
-                        esc = 0;
+                break;
+            default:
+                len = 0;
+                result += "\n";
+                break;
+            }
         }
 
-        if( i < sl)
-                result += input[i..sl-1];
+        if (input[i] == 27)
+            esc = 1;
 
-        if( len) result += "\n";
+        if (!esc)
+        {
+            // 非英文字符
+            if (input[i] > 160)
+            {
+                result += input[i..i];
+                len += 2;
+                continue;
+            }
+            // 换行
+            if (input[i] == '\n')
+            {
+                result += "\n";
+                len = 0;
+                continue;
+            }
+            len++;
+        }
+        if (esc && input[i] == 'm')
+            esc = 0;
 
-        return result;
+        result += input[i..i];
+    }
+
+    if (len)
+        result += "\n";
+
+    return result;
 }
 
 string sort_msg(string input)
@@ -125,12 +134,12 @@ varargs void message_vision(string msg, object me, object you,int no_sort)
 	my_gender = me->query("gender");
 
 	if(!my_name || !my_gender) return; //mon 10/23/97
-	
+
 	str1 = replace_string(msg,  "$P", gender_self(my_gender));
 	str1 = replace_string(str1, "$N", gender_self(my_gender));
 	str3 = replace_string(msg,  "$P", my_name);
 	str3 = replace_string(str3, "$N", my_name);
-	str3 = replace_string(str3, "$S", RANK_D->query_self(me));	
+	str3 = replace_string(str3, "$S", RANK_D->query_self(me));
 	str3 = replace_string(str3, "$s", RANK_D->query_self_rude(me));
 	str3 = replace_string(str3, "$C", RANK_D->query_respect(me));
         str3 = replace_string(str3, "$c", RANK_D->query_rude(me));
@@ -158,7 +167,7 @@ varargs void message_vision(string msg, object me, object you,int no_sort)
 	if( !no_sort )
 		str3 = sort_string(str3,76,0);
 	if(environment(me)) { //mon 10/23/97
-	  	if(you) 
+	  	if(you)
 		    message("vision", str3,  environment(me), ({ me, you}) );
 		else
 		    message("vision", str3,  environment(me), ({ me}));
@@ -180,23 +189,23 @@ void message_system(string message)
 
 void tell_object(object ob, string str)
 {
-	if(ob) 
+	if(ob)
 	{
 		str = sort_string(str,76,0);
 		message("tell_object", str, ob);
-	}	
+	}
 }
 
 varargs void tell_room(mixed ob, string str, object *exclude)
 {
-	if( ob) 
+	if( ob)
 	{
 		str = sort_string(str,76,0);
 		message("tell_room", str, ob, exclude);
 	  	// broadcasting to remote rooms, snowcat feb 8 1998
 	  	if(ob->query("broadcast"))
 	  		ob->broadcast(str);
-	}  		
+	}
 }
 
 void shout(string str)
@@ -216,18 +225,18 @@ void write(string str)
 varargs void say(string str, mixed exclude)
 {
 	object ob = 0;
-	if( living(previous_object()) ) 
+	if( living(previous_object()) )
 		ob = previous_object();
-	else if( this_player() ) 
+	else if( this_player() )
 		ob = this_player();
-	if( ob && environment(ob)) 
-	{	
+	if( ob && environment(ob))
+	{
 		str = sort_string(str,76,0);
 		message("say", str, environment(ob), ob);
   		// broadcasting to remote rooms, snowcat feb 8 1998
   		if(environment(ob)->query("broadcast"))
   			environment(ob)->broadcast(str);
-  	}		
+  	}
 }
 
 varargs void printf (string msg, mixed a1, mixed a2, mixed a3, mixed a4,
@@ -241,7 +250,7 @@ varargs void printf (string msg, mixed a1, mixed a2, mixed a3, mixed a4,
 int notify_fail (mixed arg)
 {
 	if( arg && stringp(arg) )
-		arg = sort_string(arg,76,0);        
+		arg = sort_string(arg,76,0);
     	return efun::notify_fail (arg);
 }
 
@@ -257,7 +266,7 @@ int err_msg(string arg)
 nomask varargs void message_combatd(string msg, object me, object you)
 {
 	if( COMBAT_D->query_message_type(me,you)<2 )
-		message_vision(msg,me,you);	 	
+		message_vision(msg,me,you);
 }
 
 // Modified By Jingxue 2007/06/16
@@ -268,7 +277,7 @@ varargs string mix_str( string msg_one, string msg_two, int wi )
 	string msg;
 	string *field_one, *field_two;
 	int max_line, i;
-	
+
 	if (msg_one == "")
 		return msg_two;
 	else
