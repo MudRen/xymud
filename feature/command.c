@@ -1,4 +1,4 @@
-#pragma optimize
+// #pragma optimize
 
 #include <ansi.h>
 #include <command.h>
@@ -37,18 +37,18 @@ nomask int command_hook(string arg)
 {
         string verb, file;
         verb = query_verb();
-	
+
 	if( !wizardp(this_object()) && !this_object()->query("env/immortal") )
 	{
 		if( this_object()->is_blind() )
-			return notify_fail(this_object()->query_blind_msg()+"\n");	
+			return notify_fail(this_object()->query_blind_msg()+"\n");
 		if( this_object()->is_hunluan() )
 		{
 			arg = COMMAND_D->random_command(0,path);
 			verb = arg;
 		}
 	}
-        if( arg && userp(this_object()) && !wizardp(this_object()) ) 
+        if( arg && userp(this_object()) && !wizardp(this_object()) )
         	arg=replace_string(arg,ESC,"");
         if( !arg
         &&   (environment() && stringp( environment()->query("exits/" + verb) ) )
@@ -90,7 +90,7 @@ nosave int enabled = 0;
 
 nomask void enable_player()
 {
-        if( stringp(query("id")) ) 
+        if( stringp(query("id")) )
         	set_living_name(query("id"));
         else	set_living_name(query("name"));
 
@@ -133,7 +133,7 @@ nomask void enable_player()
                                 set_path(BOSS_PATH);
                                 enable_wizard();
                                 break;
- */ 
+ */
                        default:
                                 set_path(PLR_PATH);
                 }
@@ -155,4 +155,3 @@ nomask void disable_player(string type)
 
         }
 }
-

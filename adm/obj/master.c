@@ -38,7 +38,7 @@ protected void crash(string error, object command_giver, object current_object)
 
          mixed cmds;
   int i;
-        
+
   efun::shout("系统核心发出一声惨叫：哇—哩—咧—\n");
   efun::shout("系统核心告诉你：要当机了，自己保重吧！\n");
   log_file("static/crash", MUD_NAME + " crashed on: " + ctime(time()) +
@@ -50,21 +50,21 @@ protected void crash(string error, object command_giver, object current_object)
     write_file("/log/static/lastcrash",
         sprintf( "this_player: %O %s\n",command_giver, geteuid(command_giver)));
     cmds = command_giver->query_commands();
-    for (i = 0; i < sizeof(cmds); i++) 
+    for (i = 0; i < sizeof(cmds); i++)
     {
-      if (cmds[i][2] == command_giver) 
+      if (cmds[i][2] == command_giver)
         continue;
       log_file("static/crash", sprintf("%-15s  %2d %O\n", cmds[i][0], cmds[i][1], cmds[i][2]));
     }
     if (environment(command_giver))
-      log_file("static/crash", sprintf("in where: %s(%s)。\n", 
+      log_file("static/crash", sprintf("in where: %s(%s)。\n",
                              environment(command_giver)->query("short"),
                              base_name(environment(command_giver))));
-      log_file("static/crash", sprintf( "this_player: %O 。 end command (%s)\n", 
-                             command_giver, 
+      log_file("static/crash", sprintf( "this_player: %O 。 end command (%s)\n",
+                             command_giver,
                              command_giver->query_last_input()));
   }
-  
+
   if (current_object)
   {
     log_file("static/crash", sprintf("this_object: %O\n", current_object));
@@ -138,26 +138,42 @@ void preload(string file)
                 write(" -> Error " + err + " when loading " + file + "\n");
         else
                 write(".... Done.\n");
-                
+
 }
 void log_error(string file, string message)
 {
         string name, home;
-   
-        if( find_object(SIMUL_EFUN_OB) )
+
+        if (find_object(SIMUL_EFUN_OB))
                 name = file_owner(file);
 
-        if (name) home = user_path(name);
-        else home = LOG_DIR;
+        if (name)
+                home = user_path(name);
+        else
+                home = LOG_DIR;
 
-        if(this_player(1)) efun::write("编译时段错误：" + message+"\n");
-        
-        efun::write_file(home + "log", message);
+        if (strsrch(message, "Warning") == -1)
+        {
+                if (this_player(1))
+                {
+                        if (wizardp(this_player(1)))
+                                efun::write("编译时段错误：" + message + "\n");
+                        else
+                                efun::write(get_config(11) + "\n");
+                }
+                // 记录错误日志
+                efun::write_file(home + "log_error", message);
+        }
+        else
+        {
+                // 记录警告日志
+                efun::write_file(home + "log", message, 1);
+        }
 }
 int save_ed_setup(object who, int code)
 {
         string file;
-  
+
     if (!intp(code))
         return 0;
     file = user_path(getuid(who)) + ".edrc";
@@ -168,7 +184,7 @@ int retrieve_ed_setup(object who)
 {
    string file;
    int code;
-  
+
     file = user_path(getuid(who)) + ".edrc";
     if (file_size(file) <= 0) {
         return 0;
@@ -225,7 +241,7 @@ string standard_trace(mapping error, int caught)
         res = (caught) ? "错误讯息被拦截：" : "";
 
         res = sprintf("\n[执行时段错误]: %s[程式] %s%s:%i\n[物件]: %O\n",               error["error"],         error["file"],          error["file"]==error["program"] ? "" : "(" + error["program"] + ")",           error["line"],          error["object"]);
-                
+
         if (! error["object"] && (me = this_player()))
         {
                 res += sprintf("当前玩家：%s(%s) - %O  所在环境：%O\n",
@@ -276,22 +292,22 @@ int valid_shadow( object ob ) { return 0; }
 //   efun:: prefix and which may not.  This function is only called at
 //   object compile-time
 
-int valid_override( string file, string name ) 
-{ 
-        // simul_efun can override any simul_efun by Annihilator 
-        if (file == SIMUL_EFUN_OB || file==MASTER_OB) 
-                return 1; 
- 
-        // Must use the move() defined in F_MOVE. 
-        if ((name == "move_object") && file != F_MOVE && file != F_COMMAND) 
-                return 0; 
- 
-        if ((name == "destruct") && ! sscanf(file, "/adm/simul_efun/%s", file)) 
-                return 0; 
- 
-    //  may also wish to protect destruct, shutdown, snoop, and exec. 
-        return 1; 
-} 
+int valid_override( string file, string name )
+{
+        // simul_efun can override any simul_efun by Annihilator
+        if (file == SIMUL_EFUN_OB || file==MASTER_OB)
+                return 1;
+
+        // Must use the move() defined in F_MOVE.
+        if ((name == "move_object") && file != F_MOVE && file != F_COMMAND)
+                return 0;
+
+        if ((name == "destruct") && ! sscanf(file, "/adm/simul_efun/%s", file))
+                return 0;
+
+    //  may also wish to protect destruct, shutdown, snoop, and exec.
+        return 1;
+}
 // valid_seteuid: determines whether an object ob can become euid str
 int valid_seteuid( object ob, string str )
 {
@@ -348,7 +364,7 @@ int valid_save_binary( string filename )
 }
 
 // valid_write: write privileges; called with the file name, the object
-//   initiating the call, and the function by which they called it. 
+//   initiating the call, and the function by which they called it.
 
 int valid_write( string file, mixed user, string func )
 {

@@ -4,7 +4,7 @@
 // This file is #included in all objects automatically by the driver.
 // (See config file of driver)
 
-//#pragma save_binary
+//// #pragma save_binary
 
 // 统一 busy 的返回信息。
 #define BUSY_MESSAGE		"你现在忙得很，无法做任何事情。\n"
@@ -69,7 +69,7 @@
 #define PROFILE_D		"/adm/daemons/profiled"
 #define RANK_D			"/adm/daemons/rankd"
 #define SECURITY_D		"/adm/daemons/securityd"
-#define XYJTIME_D   		"/adm/daemons/xyjtimed.c" 
+#define XYJTIME_D   		"/adm/daemons/xyjtimed.c"
 #define SPELL_D		  	"/adm/daemons/spelld"
 #define MONEY_D     		"/adm/daemons/moneyd"
 #define UPDATE_D		"/adm/daemons/updated"
@@ -190,9 +190,8 @@
 
 // Profiling switches
 //
-// If you changed any of these defines, you'll need reboot to make it 
+// If you changed any of these defines, you'll need reboot to make it
 // in effect.
 
 #define PROFILE_COMMANDS
 #undef PROFILE_COMMANDS
-

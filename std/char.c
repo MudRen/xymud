@@ -1,6 +1,6 @@
 // char.c
 
-#pragma save_binary
+// #pragma save_binary
 
 #include <action.h>
 #include <ansi.h>
@@ -48,7 +48,7 @@ void setup()
 
 	set_heart_beat(1);
 	next_beat = time() + 5 + random(10);
-	
+
         enable_player();
         set_max_items(35);
 
@@ -62,20 +62,20 @@ void heart_beat()
     	int period,i;
 	mapping my;
     	object ob, room, me,*inv;
-	if (!objectp(room=environment()))       
+	if (!objectp(room=environment()))
 		return;
 
 	me = this_object();
 	my = query_entire_dbase();
 
-	if( my["eff_kee"] < 0 || my["eff_sen"] < 0  ) 
+	if( my["eff_kee"] < 0 || my["eff_sen"] < 0  )
 	{
 		QUEST->quest_kill(this_object());
 		remove_all_enemy();
 		die();
 		return;
 	}
-	if( my["kee"] < 0 || my["sen"] < 0  ) 
+	if( my["kee"] < 0 || my["sen"] < 0  )
 	{
 		QUEST->quest_kill(this_object());
 		remove_all_enemy();
@@ -90,26 +90,26 @@ void heart_beat()
 		return;
 	}
 
-	if( is_no_move() ) 
+	if( is_no_move() )
 	{
 		continue_action();
 		return;
 	}
-	
+
 	if( is_blind() )
 	{
 		continue_action();
 		return;
 	}
-	 
-	else 
+
+	else
 	{
 		//神通 颠倒阴阳
 		if( !environment()->query("no_huicheng") && is_fighting()
 		 && !me->is_ghost() && me->query_skill("diandao-yinyang",2)>1
 		 && intp(wimpy_ratio = (int)query("env/wimpy"))
-		 && wimpy_ratio > 0 && me->query("mana")>50 
-		 && ( my["kee"] * 100 / me->query_maxkee()<= wimpy_ratio 
+		 && wimpy_ratio > 0 && me->query("mana")>50
+		 && ( my["kee"] * 100 / me->query_maxkee()<= wimpy_ratio
 		  || my["sen"] * 100 / me->query_maxsen()<= wimpy_ratio) )
 		{
 			t = me->query_skill("jiefeng",1);
@@ -132,37 +132,37 @@ void heart_beat()
         				me->clean_up_enemy();
         				return;
 				}
-			}	
-		}		
+			}
+		}
 		if( is_fighting()
 		&& intp(wimpy_ratio = (int)query("env/wimpy"))
 		&& wimpy_ratio > 0
-		&& ( my["kee"] * 100 / me->query_maxkee()<= wimpy_ratio 
-		  || my["sen"] * 100 / me->query_maxsen()<= wimpy_ratio) ) 
+		&& ( my["kee"] * 100 / me->query_maxkee()<= wimpy_ratio
+		  || my["sen"] * 100 / me->query_maxsen()<= wimpy_ratio) )
 			GO_CMD->do_flee(this_object());
 		attack();
 	}
 
-	if( !userp(this_object()) && living(this_object()) ) 
+	if( !userp(this_object()) && living(this_object()) )
 		this_object()->chat();
-	if ((t = time()) < next_beat) 
+	if ((t = time()) < next_beat)
 		return;
         else next_beat = t + 5 + random(10);
-        
+
         if (!room->query("no_time") || this_object()->query_condition("no_pk_time"))
 		cnd_flag = update_condition();
 
 	if( ((cnd_flag & CND_NO_HEAL_UP) || !heal_up())
-	&&	!is_fighting() 
-	&&	!interactive(this_object())) 
+	&&	!is_fighting()
+	&&	!interactive(this_object()))
 	{
-		if( environment() ) 
+		if( environment() )
 		{
 			ob = first_inventory(environment());
 			while(ob && !interactive(ob))
 				ob = next_inventory(ob);
 		}
-		if( !ob ) 
+		if( !ob )
 			set_heart_beat(0);
 	}
 
@@ -199,7 +199,7 @@ int visible(object ob)
 {
 	int lvl;
 
-	if(wizardp(this_object())) 
+	if(wizardp(this_object()))
 		return 1;
 	if( ob->query("env/invisibility") )
 		return 0;
@@ -223,7 +223,7 @@ varargs int eff_skill_level(int level, int usage)
 	  switch( usage )  {
 		 case SKILL_USAGE_ATTACK:
 		 case SKILL_USAGE_DEFENSE:
-			if( level > 300 )	level += 35 + (level-300)*2/5; 
+			if( level > 300 )	level += 35 + (level-300)*2/5;
 			else if( level > 200 )	level += 15 + (level-200)/5;
 			else if( level > 100 )	level += 5 + (level-100)/10;
 			else 				level += level / 20;
@@ -240,12 +240,12 @@ varargs int eff_skill_level(int level, int usage)
 			level -= level / 10;
 			break;
 		 case SKILL_USAGE_SPELL:
-			if( level > 300 )	level += 35 + (level-300)*2/5; 
+			if( level > 300 )	level += 35 + (level-300)*2/5;
 			else if( level > 200 )	level += 15 + (level-200)/5;
 			else if( level > 100 )	level += 5 + (level-100)/10;
 			else 				level += level / 20;
 			break;
-	  } 
+	  }
    }
 
    return level;
@@ -296,7 +296,7 @@ int query_max_daoxing()
 	else	max_dx = lvl*500000;
 	if( max_dx<80000 )
 		max_dx = 80000;
-	return max_dx;		
+	return max_dx;
 }
 
 int query_max_life()
@@ -309,4 +309,4 @@ int accept_surrender(object who)
 	if( who->query("env/no_accept_surrender") )
 		return 0;
 	return 1;
-}		
+}

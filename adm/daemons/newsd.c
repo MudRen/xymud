@@ -12,8 +12,8 @@
 #include <getconfig.h>
 #include <mudlib.h>
 /*
-#pragma optimize
-#pragma save_binary
+// #pragma optimize
+// #pragma save_binary
 */
 
 #include <ansi.h>
@@ -53,7 +53,7 @@ void prompt_user(object me)
         last_read_time = me->query("last_read_news");
         if (! last_read_time)
         {//added pkyou@xyj 写描述真累！
-                
+
                 tell_object(me, HIG "\n你有新的消息没有查看，请用"WHT"news"HIG"来查看最新的天界消息。\n\n" NOR);
 /*
                 me->set("last_read_news", time());
@@ -63,7 +63,7 @@ void prompt_user(object me)
                 me->delete("new_player");
                 }
                 me->set("last_read_news", 0);
-                call_out("auto_notice",10+random(10),me); 
+                call_out("auto_notice",10+random(10),me);
 */
                 return;
         }
@@ -84,7 +84,7 @@ void prompt_user(object me)
         if (! total) {
         // Added by waiwai@2003/04/09
         if(me->query("mud_age")>0)
-        write(RED"  → "NOR"您已经在"+MUDLIB_NAME+"的世界里经历了" + FINGER_D->age_string( (int)me->query("mud_age")) + 
+        write(RED"  → "NOR"您已经在"+MUDLIB_NAME+"的世界里经历了" + FINGER_D->age_string( (int)me->query("mud_age")) +
         "的岁月了。。。\n"NOR);
         }
         else
@@ -95,7 +95,7 @@ void prompt_user(object me)
         // 开始定时通知
         if (previous_object() == find_object(LOGIN_D))
             //    call_out((: call_other, __FILE__, "auto_notice", me :), me), 10 + random(10);
-        call_out("auto_notice",10+random(10),me); 
+        call_out("auto_notice",10+random(10),me);
 */
 }
 
@@ -126,13 +126,13 @@ void show_news(object me, int raw)
                 msg += sprintf("%s[%3d]%-39s %18s [%s]\n",
                                (notes[i]["time"] > last_time_read ? HIR"(未读)"NOR:WHT"(已读)"NOR),
                                i + 1, notes[i]["title"],
-                               notes[i]["author"], 
+                               notes[i]["author"],
                                 BJTIME_CMD->chinese_time(8, ctime(notes[i]["time"])));
         }
         if (i == sizeof(notes) - 1) {
                 tell_object(me, "目前没有任何未查看过的消息。\n");
                 return;
-        } 
+        }
 
         msg += GRN "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"HIR+MUDLIB_NAME+NOR GRN"━━━━━\n" NOR;
 
@@ -247,7 +247,7 @@ void do_post(object me, string arg)
         note["author"] = me->name(1) + "-" + me->query("id");
         note["time"] = time();
 
-/*  
+/*
         if (! n) sign = me->query("qmd/wizqmd");
         if (n && ! stringp(sign = me->query(sprintf("qmd/wizqmd%d", n))))
         {
@@ -381,7 +381,7 @@ void auto_notice(object me)
 
         // some news need read, start next call out
        // call_out((: call_other, __FILE__, "auto_notice", me :), me), 30 + random(30);
-call_out("auto_notice",10+random(10),me); 
+call_out("auto_notice",10+random(10),me);
         if (! living(me) || me->query_temp("block_msg/all"))
                 return;
 
@@ -427,7 +427,7 @@ call_out("auto_notice",10+random(10),me);
         me->start_more(sprintf("[%d] %-" + (41 + color_len(notes[num]["title"])) +
                                "s %s [%s]\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n",
                                num + 1, notes[num]["title"], notes[num]["author"],
-                               BJTIME_CMD->chinese_time(8, ctime(notes[num]["time"]))) + 
+                               BJTIME_CMD->chinese_time(8, ctime(notes[num]["time"]))) +
          notes[num]["msg"]+
          "\n"+sprintf("%s\n"NOR,notes[num]["qmd"])+
          "\n━━━━━━━━━━━━━━━━━━━━━━━━━"+MUDLIB_FULL_NAME+"━━━━━");
@@ -439,5 +439,3 @@ call_out("auto_notice",10+random(10),me);
 }
 */
 string query_save_file() { return DATA_DIR "newsd"; }
-
-

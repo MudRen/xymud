@@ -5,7 +5,7 @@
 inherit F_DBASE;
 #include <questd.h>
 
-#pragma save_binary
+// #pragma save_binary
 
 nosave int now_pot = 100;
 nosave int last_jiangjing = 0;
@@ -116,7 +116,7 @@ int set_job_reward(string type,int v)
 	if( v!=100 )
 		message("shout",HIG"【任务系统】"HIR+type+HIG"奖励基数"+(v>100?"上调":"下调")+"为正常基数的"HIR+v+"%"HIG"！\n"NOR,users());
 	else	CHANNEL_D->do_channel(this_object(),"sys",type+"奖励基数 初始化 完毕！"NOR);
-	now_pot	= v;	
+	now_pot	= v;
 	return v;
 }
 
@@ -138,7 +138,7 @@ int job_reward_player(object who,string data,int reward,string type)
 	}
 	if( reward<0 )
 	{
-		log_file("job_err",sprintf("[%s]%O获取%s奖励出错>>>>奖励为负.\n",ctime(time()),who,type)); 
+		log_file("job_err",sprintf("[%s]%O获取%s奖励出错>>>>奖励为负.\n",ctime(time()),who,type));
 		return 0;
 	}
 	if( reward==0 )
@@ -149,7 +149,7 @@ int job_reward_player(object who,string data,int reward,string type)
 			tell_object(who,HIG"【系统】你得到了零点潜能。\n"NOR);
 		else if( data=="money" )
 			;
-		else    tell_object(who,HIG"【系统】你得到了零点道行。\n"NOR);	    
+		else    tell_object(who,HIG"【系统】你得到了零点道行。\n"NOR);
 		return 1;
 	}
 	type2 = 0;
@@ -169,9 +169,9 @@ int job_reward_player(object who,string data,int reward,string type)
 			case "妖魔大会"      : type2="ymdh";break;
 			case "门派守护"      : type2="shouhu";break;
 	}
-	
+
 	p = query_job_reward(type);
-	reward = reward*p/100; 
+	reward = reward*p/100;
 	pp = 0;
 	if( type2 && stringp(type2) )
 	{
@@ -189,7 +189,7 @@ int job_reward_player(object who,string data,int reward,string type)
 					tell_object(who,HIY"【系统】由于使用了特殊道具，你所得的"HIR+nn[data]+HIY"为平时的"HIR+pp+"%。\n"NOR);
 				}
 			}
-		else    who->delete_temp("ad_apply/"+type2);		    
+		else    who->delete_temp("ad_apply/"+type2);
 		}
 	 }
 
@@ -198,7 +198,7 @@ int job_reward_player(object who,string data,int reward,string type)
 	else if( data=="potential" )
 		tell_object(who,HIG"【系统】你得到了"HIY+reward+HIG"点潜能，奖励基数 "HIY+p+"%"HIG"\n"NOR);
 	else if( data=="money" )
-		tell_object(who,HIG"【系统】你得到了"HIY+MONEY_D->money_str(reward,1)+HIG"，奖励基数 "HIY+p+"%"HIG"\n"NOR);     
+		tell_object(who,HIG"【系统】你得到了"HIY+MONEY_D->money_str(reward,1)+HIG"，奖励基数 "HIY+p+"%"HIG"\n"NOR);
 	else    tell_object(who,HIG"【系统】你得到了"HIY+COMBAT_D->chinese_daoxing(reward)+HIG"道行，奖励基数 "HIY+p+"%"HIG"\n"NOR);
 	if( data=="money" )
 	{
@@ -218,9 +218,9 @@ void check_job_gift()
 	string *jobs,jr,day;
 	mixed *local;
 
-	set_heart_beat(3600);	
-	
-	local = localtime(time());      
+	set_heart_beat(3600);
+
+	local = localtime(time());
 	da = local[3];
 	mo = local[4]+1;
 	we = local[6];
@@ -286,7 +286,7 @@ void check_job_gift()
 	{
 		jr = "劳动节期间";
 		pp = 300;
-	}       
+	}
 	else if( mo==5 && da==4 )
 	{
 		jr = "青年节";
@@ -296,12 +296,12 @@ void check_job_gift()
 	{
 		jr = "母亲节";
 		pp = 200;
-	}       
+	}
 	else if( mo==6 && da==1 )
 	{
 		jr = "儿童节";
 		pp = 200;
-	}       
+	}
 	else if( mo==6 && da>14 && we==0 )
 	{
 		jr = "父亲节";
@@ -336,7 +336,7 @@ void check_job_gift()
 	{
 		jr = "国庆节期间";
 		pp = 400;
-	}		       
+	}
 	else if( mo==12 && da==25 )
 	{
 		jr = "圣诞节";
@@ -350,14 +350,14 @@ void check_job_gift()
 	remove_call_out("check_job_gift");
 	if( pp==now_pot )
 		return;
-	
+
 	day = " "+chinese_number(mo)+"月"+chinese_number(da)+"日";
 	if( jr )
 		day+= "("HIR+jr+HIG") ";
-	day = "今日是"+day;     
+	day = "今日是"+day;
 	if( jr && stringp(jr) )
 	{
-		message("shout",HIG"【任务系统】"+day+HIG"，全局奖励基数自动调整为"HIR+pp+"%"HIG"！\n"NOR,users());	   
+		message("shout",HIG"【任务系统】"+day+HIG"，全局奖励基数自动调整为"HIR+pp+"%"HIG"！\n"NOR,users());
 		jobs = keys(Job);
 		for(i=0;i<sizeof(jobs);i++)
 		{
@@ -370,12 +370,12 @@ void check_job_gift()
 	{
 		pp = 100;
 		jobs = keys(Job);
-		CHANNEL_D->do_channel(this_object(),"chat",day+HIC"，全局奖励基数维持正常状态！"NOR);		
+		CHANNEL_D->do_channel(this_object(),"chat",day+HIC"，全局奖励基数维持正常状态！"NOR);
 		for(i=0;i<sizeof(jobs);i++)
 			set_job_reward(jobs[i],pp);
 	}
-	
-} 
+
+}
 
 int set_job_reward_flag(int v,int time,object who)
 {
@@ -384,18 +384,18 @@ int set_job_reward_flag(int v,int time,object who)
 	if( v<50 || v>500 || time<0 || time>86400 )
 		return 0;
 	if( !who ) return 0;
-        if( wizhood(who) != "(admin)" ) 
+        if( wizhood(who) != "(admin)" )
 		return 0;
 	jobs = keys(Job);
 	if( userp(who) )
-		message("shout",HIG"【任务系统】"HIW+who->query("id")+HIG"将全局奖励基数调整为 "HIR+v+"%"HIG" ，为时 "HIR+CHINESE_D->chtime(time)+" "HIG"！\n"NOR,users());			
+		message("shout",HIG"【任务系统】"HIW+who->query("id")+HIG"将全局奖励基数调整为 "HIR+v+"%"HIG" ，为时 "HIR+CHINESE_D->chtime(time)+" "HIG"！\n"NOR,users());
 	else
-		message("shout",HIG"【任务系统】"HIW+who->query("channel_id")+HIG"将全局奖励基数调整为 "HIR+v+"%"HIG" ，为时 "HIR+CHINESE_D->chtime(time)+" "HIG"！\n"NOR,users());				
+		message("shout",HIG"【任务系统】"HIW+who->query("channel_id")+HIG"将全局奖励基数调整为 "HIR+v+"%"HIG" ，为时 "HIR+CHINESE_D->chtime(time)+" "HIG"！\n"NOR,users());
 	for(i=0;i<sizeof(jobs);i++)
 		set_job_reward(jobs[i],v);
-	set_heart_beat(time);	
+	set_heart_beat(time);
 	remove_call_out("check_job_gift");
-	call_out("check_job_gift",time);	
+	call_out("check_job_gift",time);
 	return 1;
 }
 
@@ -403,7 +403,7 @@ int set_job_reward_flag(int v,int time,object who)
 void addSen(object me)
 {
 	int neilineed,diff;
-	if( !me || !living(me) || me->query("force")<20 ) 
+	if( !me || !living(me) || me->query("force")<20 )
 		return;
 	if( me->query("no_refresh") )
 		return;
@@ -421,10 +421,10 @@ void addSen(object me)
 void addKee(object me)
 {
 	int diff,neilineed;
-	if( !me || !living(me) || me->query("force")<20 ) 
+	if( !me || !living(me) || me->query("force")<20 )
 		return;
 	if( me->query("no_recover") )
-		return;	
+		return;
 	diff = me->query("eff_kee")-me->query("kee");
 	neilineed = diff*30/(int)me->query_skill("force");
 	if( neilineed<1 ) return;
@@ -452,7 +452,7 @@ void addEffSen(object me)
 		me->receive_curing("sen",(200+(int)me->query_skill("spells",1)/2) );
 		me->add("mana",-200);
 	}
-	message_vision("$N吃下一些混元丹，气色看起来好多了。\n"NOR,me); 
+	message_vision("$N吃下一些混元丹，气色看起来好多了。\n"NOR,me);
 	return;
 }
 
@@ -470,14 +470,14 @@ void addEffKee(object me)
 		me->receive_curing("kee",(100+(int)me->query_skill("force",1)/2) );
 		me->add("force",-200);
 	}
-	message_vision("$N吃下一些金创药，气色看起来好多了。\n"NOR,me); 
+	message_vision("$N吃下一些金创药，气色看起来好多了。\n"NOR,me);
 	return;
 }
 
 int sort_skill(string file)
 {
 	int i;
-	if( !sscanf(file, "%*s.c") )  
+	if( !sscanf(file, "%*s.c") )
 		return 0;
 	i = strlen(file);
 	while(i--)
@@ -502,9 +502,9 @@ string checkSkill(object who,string arg)
 	object newSk;
 	mapping skill = who->query_skills();
 
-	if( !skill || !mapp(skill) )  
+	if( !skill || !mapp(skill) )
 		return 0;
-	if( undefinedp(skill[arg]) )    
+	if( undefinedp(skill[arg]) )
 		return 0;
 	str = keys(skill);
 	for( i=0;i<sizeof(str);i++ )
@@ -515,7 +515,7 @@ string checkSkill(object who,string arg)
 			break;
 		}
 	}
-	if( !stringp(sk) )     
+	if( !stringp(sk) )
 		return 0;
 	if(file_size(SKILL_D(sk)+".c") < 1)
 		error ("daemon/"+sk+".c文件损坏.\n");
@@ -564,7 +564,7 @@ varargs int maxSkill(object who,int flag)
 		for (i=0;i<sizeof(skill);i++)
 		{
 			if( flag>0 && skill[i]=="literate" )
-				continue;		       
+				continue;
 			if( who->query_skill(skill[i],1)>num )
 				num = who->query_skill(skill[i],1);
 		}
@@ -580,28 +580,28 @@ varargs void randomPfm(object who,string arg)
 	if( !who || !living(who) )
 		return;
 	if( !who->is_fighting() || who->query("no_perform") )
-		return; 
+		return;
 	if( time()<(who->query_temp("no_perform/start")+who->query_temp("no_perform/time")) )
-		return;		
+		return;
 	if( !arg )
 	{
 		if( !objectp(weapon=who->query_temp("weapon")) )
 			arg = "unarmed";
 		else    arg = weapon->query("skill_type");
-	}		      
+	}
 	if( !arg || !stringp(arg) )   arg = "unarmed";
 	exert = checkSkill(who,arg);
         if( !exert || !stringp(exert) || exert=="huicheng" )
 		return;
-	if( exert=="huifeng" && !who->query("pfm_huifeng") 
+	if( exert=="huifeng" && !who->query("pfm_huifeng")
 	 && arg=="sword" && who->query("family/family_name")=="月宫" )
 		return;
-	if( exert=="heng" && !who->query("pfm_heng") 
+	if( exert=="heng" && !who->query("pfm_heng")
 	 && arg=="sword" && who->query("family/family_name")=="百花谷" )
-		return;	
-	if( exert=="zong" && !who->query("pfm_zong") 
+		return;
+	if( exert=="zong" && !who->query("pfm_zong")
 	 && arg=="sword" && who->query("family/family_name")=="百花谷" )
-		return;				
+		return;
 	who->perform_action(arg,exert);
 }
 
@@ -611,7 +611,7 @@ void randomCast(object who)
 	if( !who || !living(who) )
 		return;
 	if( time()<(who->query_temp("no_cast/start")+who->query_temp("no_cast/time")) )
-		return;			
+		return;
 	exert = checkSkill(who,"spells");
 	noMsg = ({      "shuidun",	       //dragon
 			"escape","chongsheng",//emei swordman
@@ -626,7 +626,7 @@ void randomCast(object who)
 			"huicheng",	    //all
 		});
 	if( !who->is_fighting()
-   	 || member_array(exert,noMsg)!=-1 
+   	 || member_array(exert,noMsg)!=-1
    	 || who->query("no_cast") )
 		return;
 	who->cast_spell(exert);
@@ -638,7 +638,7 @@ void randomExert(object who)
 	if( !who || who->query("no_exert") || !living(who) )
 		return;
 	if( time()<(who->query_temp("no_exert/start")+who->query_temp("no_exert/time")) )
-		return;		
+		return;
 	exert = checkSkill(who,"force");
 	who->exert_function(exert);
 }
@@ -662,7 +662,7 @@ void jiangjing_start(string fname)
 		room = load_object(file);
 	if( !room )
 		return;
-	room->set("jiangjing",1);	
+	room->set("jiangjing",1);
 	msg = "\n"HIW"【师门授法】";
 	switch(fname)
 	{
@@ -670,7 +670,7 @@ void jiangjing_start(string fname)
 			msg+= "凝眸仙子：现在开始传授我们蓬莱山百花谷的神功，诸弟子可与花海聆听(hear)。";
 			tell_room(room,"凝眸仙子说道：明玉神功以吐纳为根基，可吸收天地之灵气。习之可是神清气明，忘却一切杂念，使身心达到一种超脱凡人的境界。\n");
 			break;
-		/*	
+		/*
 		case "儒家" :
 			msg+= "贺知章：大唐国子监开始授课！来读书(dushu)吧！";
 			break;
@@ -686,7 +686,7 @@ void jiangjing_start(string fname)
 			break;
 		case "方寸山三星洞" :
 			msg+= "云阳真人：方寸山三星洞弟子，速回山于讲经堂听(hear)道家仙法了。";
-			tell_room(room,"云阳真人说道：道家仙法是菩提祖师所创的法术。\n");	
+			tell_room(room,"云阳真人说道：道家仙法是菩提祖师所创的法术。\n");
 			break;
 		case "月宫" :
 			msg+= "嫦娥：月宫弟子快回长思馆来练舞(lianwu)。	";
@@ -702,23 +702,23 @@ void jiangjing_start(string fname)
 			msg+= "金灵圣母：现在开始传授我们盘丝洞的仙术，速回金光洞聆听(hear)。";
 			tell_room(room,"金灵圣母说道：修炼仙术目的是希望能参透天地间永恒的奥秘，以达到天人合一的境界。\n");
 			break;
-		case "东海龙宫"	: 
+		case "东海龙宫"	:
 			msg+= "敖广：现在开始传授我们龙宫避水之术，龙宫弟子速回正殿聆听(hear)。";
 			tell_room(room,"敖广说道：四海龙王乃玉帝遣于凡间，专管降雨。\n");
 			tell_room(room,"敖广说道：四海龙王之下又有众多河龙王，井龙王，及各种水族。\n");
 			tell_room(room,"敖广说道：我传的武功法术在水中占了极大的优势。\n");
 			tell_room(room,"敖广说道：龙宫的宝物对本门弟子的成长也是大有好处。\n");
 			break;
-		case "蜀山派" : 
+		case "蜀山派" :
 			msg+= "剑圣：现在开始传授我们蜀山的仙术，蜀山弟子速回大殿聆听(hear)。";
 			tell_room(room,"剑圣说道：蜀山仙术能吸取山中灵气，修炼后能突破凡人之躯，御剑飞行，追风逐月，星海飞驰，修炼仙术目的是希望能参透天地间永恒的奥秘，以达到天人合一的境界。\n");
 			tell_room(room,"剑圣说道：山外有山，天外有天。\n");
 			break;
-		case "大雪山" : 
+		case "大雪山" :
 			msg+= "白象尊者：雪山弟子，速回东武场听(hear)本尊开始讲授登仙大法。";
 			tell_room(room,"白象尊者说道：登仙大法可谓是明王创造出来的奇特的仙法。\n");
 			break;
-		case "陷空山无底洞" : 
+		case "陷空山无底洞" :
 			msg+= "玉鼠精：现在开始在大殿传授我们无底洞的宝典，儿郎们，都来听听(hear)。";
 			tell_room(room,"地涌夫人说道：这人肉包子的味道可实在是好啊。首先要心狠手辣，不能拖泥带水。\n");
 			tell_room(room,"地涌夫人说道：人肉包子吃的就是新鲜，不能放置，砍下肉后，要立即做成包子。要点是：人的心脏附近的肉最为鲜美。\n");
@@ -731,10 +731,10 @@ void jiangjing_start(string fname)
 			msg+= "镇元大仙：现在开始在乘云阁传道，五庄弟子速回听(hear)法。";
 			tell_room(room,"镇元大仙说道：现在开始传法。\n");
 			break;
-		default : return;	
-	}	
+		default : return;
+	}
 	ob = filter_array( users(), "sort_user", this_object(), fname );
-	if( ob )	
+	if( ob )
 		message("shout",msg+NOR"\n",ob);
 }
 
@@ -743,7 +743,7 @@ void jiangjing_end()
 	string *files,f;
 	int i;
 	object room;
-	
+
 	remove_call_out("jiangjing_start");
 	remove_call_out("jiangjing_end");
 	files = values(F_place);
@@ -789,25 +789,25 @@ void heart_beat()
 
 int bug_post(string msg,string name)
 {
-	mapping note,*notes;   
+	mapping note,*notes;
 	object board = find_object("/obj/board/gift_b.c");
 	if( board )
         {
-        	note = allocate_mapping(5); 
-        	note["title"] = HIR"bug举告"NOR; 
+        	note = allocate_mapping(5);
+        	note["title"] = HIR"bug举告"NOR;
         	note["sx"] = "◆";
         	note["author"] = name,
         	note["time"] = time();
-        	note["ip"] = "系统"; 
+        	note["ip"] = "系统";
         	note["msg"] = msg;
-        	notes = board->query("notes"); 
-        	if( !pointerp(notes) || !sizeof(notes) ) 
-                	notes = ({ note }); 
-        	else    notes += ({ note }); 
-        	board->set("notes", notes); 
-        	board->save();  
+        	notes = board->query("notes");
+        	if( !pointerp(notes) || !sizeof(notes) )
+                	notes = ({ note });
+        	else    notes += ({ note });
+        	board->set("notes", notes);
+        	board->save();
         	return 1;
-        }       
+        }
 	return 0;
 }
 
@@ -821,7 +821,7 @@ int information(object npc,object who)
 	if( userp(npc) )
         	return 0;
 	npc->set_level(who->query_level()*2/3);
-	npc->set("daoxing",who->query("daoxing")/3*2);  
+	npc->set("daoxing",who->query("daoxing")/3*2);
 	lvl = maxSkill(who);
 	lvl = lvl*2/3+1;
 	skill = npc->query_skills();
@@ -831,7 +831,7 @@ int information(object npc,object who)
 		if( skills && arrayp(skills) )
 		{
 			for(i=0;i<sizeof(skills);i++)
-				npc->set_skill(skills[i],lvl);				
+				npc->set_skill(skills[i],lvl);
 		}
 	}
 	npc->set("bellicosity",who->query("bellicosity")*2/3);
@@ -849,12 +849,12 @@ varargs void random_emote(object npc,string target,mixed chat)
 {
 	string *eqs,str;
 	mapping channel;
-	eqs = EMOTE_D->query_all_emote(); 
-	str = eqs[random(sizeof(eqs))]; 
-	if( !npc || !str || !stringp(str) ) 
+	eqs = EMOTE_D->query_all_emote();
+	str = eqs[random(sizeof(eqs))];
+	if( !npc || !str || !stringp(str) )
         	return;
-	//object me, string verb, string arg, string color, int channel_emote, int rumor_emote, int intermud)        	
-	if( chat )   
+	//object me, string verb, string arg, string color, int channel_emote, int rumor_emote, int intermud)
+	if( chat )
 	{
 		channel = CHANNEL_D->query_channels();
 		if( !channel || !mapp(channel) )
@@ -867,14 +867,14 @@ varargs void random_emote(object npc,string target,mixed chat)
 		else	str = EMOTE_D->do_emote(npc,str, target,HIC"",1,0,0);
 		if( !str || !stringp(str) )
         		return;
-        	//varargs int do_channel(object me, string verb, string arg, int emote,int allow_chat)	
+        	//varargs int do_channel(object me, string verb, string arg, int emote,int allow_chat)
         	if( intp(chat) )
         		CHANNEL_D->do_channel(npc,"chat",str,1);
         	else if( stringp(chat) )
-        		CHANNEL_D->do_channel(npc,chat,str,1);	
-        }		
+        		CHANNEL_D->do_channel(npc,chat,str,1);
+        }
 	else    EMOTE_D->do_emote(npc,str, target,NOR+CYN"",0,0,0);
-}   
+}
 
 int get_player(object who)
 {
@@ -903,15 +903,15 @@ string *dirs = ({
         "/d/lingtai",
         "/d/moon",
         "/d/gao",
-        "/d/sea", 
-        "/d/nanhai", 
+        "/d/sea",
+        "/d/nanhai",
         "/d/eastway",
         "/d/xueshan",
         "/d/dntg/hgs",
-        
-        "/d/qujing/wuzhuang", 
-        "/d/qujing/baotou", 
-        "/d/qujing/baoxiang", 
+
+        "/d/qujing/wuzhuang",
+        "/d/qujing/baotou",
+        "/d/qujing/baoxiang",
         "/d/qujing/bibotan",
         "/d/qujing/biqiu",
         "/d/qujing/chechi",
@@ -941,7 +941,7 @@ string *dirs = ({
         "/d/qujing/zhuzi",
         "/d/penglai",
         "/d/pantao",
-        "/d/death",  
+        "/d/death",
         "/d/meishan",
         "/d/qujing/lingshan",
 });
@@ -959,11 +959,11 @@ for(k=0;k<30;k++)
                 newob=load_object(dirs[i]+"/"+file[j][0]);
                 if ( !newob )
                         continue;
-                if ( newob->query("no_fight") 
-                  || newob->query("no_magic") 
-                  || newob->query("no_mieyao") 
-                  || !(exit=newob->query("exits")) 
-                  || sizeof(keys(exit))<1 
+                if ( newob->query("no_fight")
+                  || newob->query("no_magic")
+                  || newob->query("no_mieyao")
+                  || !(exit=newob->query("exits"))
+                  || sizeof(keys(exit))<1
                   || newob->query("alternative_die") )
                         continue;
                 if ( !mapp(ex=newob->query("exits")) )
@@ -976,18 +976,18 @@ for(k=0;k<30;k++)
                                 {
                                 if ( temp->query("exits/"+walks[keys(ex)[m]])!=base_name(newob) )
                                         n++;
-                                }                                       
+                                }
                         else    continue;
                         }
                 if ( n )
-                        continue;       
-                if ( newob )    
+                        continue;
+                if ( newob )
                         return newob;
                 }
         }
 return 0;
 }
-        
+
 varargs object random_npc(object obj)
 {
 object *inv,npc,where = random_place();
@@ -998,24 +998,24 @@ inv = all_inventory(where);
 i = sizeof(inv);
 while(i--)
         {
-        if ( !inv[i] || !inv[i]->is_character() 
-          || inv[i]->is_fighting() 
-          || !living(inv[i]) 
+        if ( !inv[i] || !inv[i]->is_character()
+          || inv[i]->is_fighting()
+          || !living(inv[i])
           || inv[i]->is_busy() )
                 continue;
         if ( inv[i] )
                 return inv[i];
         }
-return random_npc(obj); 
-} 
+return random_npc(obj);
+}
 
 string random_msg(string arg)
 {
         int i,k,j;
-        string str,arg1;        
+        string str,arg1;
         if( !arg || !stringp(arg) )
                 return "";
-        arg = COLOR_D->clean_color(arg);        
+        arg = COLOR_D->clean_color(arg);
         i = strlen(arg);
         if( random(2) ) j= i/2;
         else j = i-2;
@@ -1041,13 +1041,13 @@ varargs object random_item(string *dirr)
         i = sizeof(inv);
         while(i--)
         {
-                obj = inv[random(i)];   
+                obj = inv[random(i)];
                 if( !obj || obj->is_character() || obj->query("no_get") )
                         continue;
                 else    return obj;
         }
-        return 0; 
-} 
+        return 0;
+}
 
 //全局爆率
 int query_item_gitf(){return 1;}

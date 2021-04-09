@@ -1,5 +1,5 @@
 // user.c
-#pragma save_binary
+// #pragma save_binary
 
 #include <origin.h>
 #include <user.h>
@@ -28,35 +28,35 @@ void create()
 	if( !Last_level_up ) Last_level_up = ([ ]);
 }
 
-varargs void remove_level_up(int v) //巫师测试用 
+varargs void remove_level_up(int v) //巫师测试用
 {
 	if( !v || v>5 )
 	{
 		Last_level_up = ([]);
-		return;		
+		return;
 	}
 	switch(v)
 	{
-		case 1 : 
+		case 1 :
 			if( !undefinedp(Last_level_up["a"]) )
 				map_delete(Last_level_up,"a");
-			return;	
-		case 2 : 
+			return;
+		case 2 :
 			if( !undefinedp(Last_level_up["b"]) )
 				map_delete(Last_level_up,"b");
-			return;	
-		case 3 : 
+			return;
+		case 3 :
 			if( !undefinedp(Last_level_up["c"]) )
 				map_delete(Last_level_up,"c");
-			return;	
-		case 4 : 
+			return;
+		case 4 :
 			if( !undefinedp(Last_level_up["d"]) )
 				map_delete(Last_level_up,"d");
-			return;	
-		default : 
+			return;
+		default :
 			if( !undefinedp(Last_level_up["e"]) )
 				map_delete(Last_level_up,"e");
-			return;	
+			return;
 	}
 }
 
@@ -108,7 +108,7 @@ void update_age()
 	object me = this_object();
         int age, newtime,life,die=0;
 	object env;
-	
+
     	if(environment()&&environment()->query("no_time"))
     	{
         	last_age_set = time();
@@ -120,7 +120,7 @@ void update_age()
 	set("age", 14 + (int)query("age_modify")/86400 + (int)query("mud_age")/ 86400);
     	if((int)query("mud_age")%86400 < 10 && query("age") > query("last_birthday_ask") )
 	{
-    		if(query("age")<16) 
+    		if(query("age")<16)
     			return;
 		message("chat",HIY"【小雨西游】生辰精灵：祝贺"HIR+this_object()->query("name")+HIY"生日快乐！\n"NOR,users());
         	tell_object(this_object(),HIG"祝你生日快乐！恭喜你将获得特别的生日礼物。\n"NOR);
@@ -139,12 +139,12 @@ void update_age()
         }
         else if( query("life/init_life_time")>=life )
         	;
-        else	
+        else
 	{
 		newtime = life-query("life/init_life_time");
 		set("life/init_life_time",life);
 		add("life/life_time",newtime);
-        }		
+        }
 }
 
 void setup()
@@ -165,7 +165,7 @@ void setup()
 private void user_dump(int type)
 {
 
-	switch(type) 
+	switch(type)
 	{
 		case DUMP_NET_DEAD:
 			tell_room( environment(), query("name") + "断线超过"+ chinese_number(NET_DEAD_TIMEOUT/60)+ "分钟，自动退出这个世界。\n");
@@ -188,16 +188,16 @@ private void net_dead()
 {
 	object link_ob;
 
-	if( objectp(link_ob = query_temp("link_ob")) )  
+	if( objectp(link_ob = query_temp("link_ob")) )
 	{
-		if(!link_ob->is_character()) 
+		if(!link_ob->is_character())
 		{
 	    		link_ob->set("last_on", time());
 	    		link_ob->set("last_from", query_ip_number(this_object()));
 	    		link_ob->save();
 	  	}
         }
-	if( userp(this_object()) ) 
+	if( userp(this_object()) )
 		CHANNEL_D->do_channel(this_object(), "sys", "断线了。",0,1);
 
 	set_temp("netdead_ip", query_ip_number(this_object()));
@@ -209,23 +209,23 @@ private void do_net_dead()
 {
 	object link_ob;
 
-	if(!this_object()) 
+	if(!this_object())
 		return;
-	if(interactive(this_object())) 
+	if(interactive(this_object()))
 		return;
 	set_heart_beat(0);
-	if( objectp(link_ob = query_temp("link_ob")) )  
+	if( objectp(link_ob = query_temp("link_ob")) )
 		destruct(link_ob);
 	add_netdead_enemy();
 	remove_all_enemy();
 	set_temp("netdead", 1);
-	if( userp(this_object()) ) 
+	if( userp(this_object()) )
 	{
 		call_out("user_dump", NET_DEAD_TIMEOUT, DUMP_NET_DEAD);
 		if( !this_object()->query("env/invisibility") && !this_object()->is_yinshen() )
 			tell_room(environment(), query("name") + "断线了。\n", this_object());
 	    	CHANNEL_D->do_channel(this_object(), "sys", "断线了。");
-	} 
+	}
 	else 	QUIT_CMD->main(this_object(),"",1);
 }
 
@@ -251,7 +251,7 @@ void gift_lose()
 		"cps" : "定力",	"per" : "魅力",
 		"con" : "根骨",	"kar" : "福缘",
 	]);
-	if( !Last_level_up ) Last_level_up = ([ ]);		
+	if( !Last_level_up ) Last_level_up = ([ ]);
 	lvl = this_object()->query_level();
 	if( lvl<40 )
 	{
@@ -262,8 +262,8 @@ void gift_lose()
 			if( undefinedp(Last_level_up["a"][lvl]) )
 				return;
 			else	old = Last_level_up["a"][lvl];
-		}	
-	}	
+		}
+	}
 	else if( lvl<80 )
 	{
 		if( undefinedp(Last_level_up["b"]) )
@@ -273,8 +273,8 @@ void gift_lose()
 			if( undefinedp(Last_level_up["b"][lvl]) )
 				return;
 			else	old = Last_level_up["b"][lvl];
-		}	
-	}	
+		}
+	}
 	else if( lvl<120 )
 	{
 		if( undefinedp(Last_level_up["c"]) )
@@ -284,8 +284,8 @@ void gift_lose()
 			if( undefinedp(Last_level_up["c"][lvl]) )
 				return;
 			else	old = Last_level_up["c"][lvl];
-		}	
-	}	
+		}
+	}
 	else if( lvl<160 )
 	{
 		if( undefinedp(Last_level_up["d"]) )
@@ -295,8 +295,8 @@ void gift_lose()
 			if( undefinedp(Last_level_up["d"][lvl]) )
 				return;
 			else	old = Last_level_up["d"][lvl];
-		}	
-	}	
+		}
+	}
 	else
 	{
 		if( undefinedp(Last_level_up["e"]) )
@@ -306,14 +306,14 @@ void gift_lose()
 			if( undefinedp(Last_level_up["e"][lvl]) )
 				return;
 			else	old = Last_level_up["e"][lvl];
-		}	
-	}	
+		}
+	}
 	if( !old || !mapp(old) )
 		return;
-	gifts = keys(old);	
+	gifts = keys(old);
 	if( !gifts || !arrayp(gifts) || sizeof(gifts)<1 )
 		return;
-		
+
 	for(i=0;i<sizeof(gifts);i++)
 	{
 		if( old[gifts[i]]>0 )
@@ -321,19 +321,19 @@ void gift_lose()
 			this_object()->add(gifts[i],-old[gifts[i]]);
 			if( !undefinedp(prop[gifts[i]]) )
 				tell_object(this_object(),HIY"【系统】你的〖 "HIG+prop[gifts[i]]+HIY" 〗减少了 "HIR+(old[gifts[i]])+HIY" 点。\n"NOR);
-		}	
+		}
 	}
-	
+
 	maxgin = this_object()->query("max_gin");
 	effgin = this_object()->query("eff_gin");
 	gin = this_object()->query("gin");
 	gin = effgin-gin;
 	effgin = maxgin-effgin;
-	
+
 	this_object()->add("max_gin",-10);
 	this_object()->set("eff_gin",this_object()->query("max_gin")-effgin);
 	this_object()->set("gin",this_object()->query("eff_gin")-gin);
-	tell_object(this_object(),HIY"【系统】你的〖 "HIG"活力"HIY" 〗减少了 "HIR+10+HIY" 点。\n"NOR);	
+	tell_object(this_object(),HIY"【系统】你的〖 "HIG"活力"HIY" 〗减少了 "HIR+10+HIY" 点。\n"NOR);
 }
 
 varargs int reward_gift(int v)
@@ -361,9 +361,9 @@ varargs int reward_gift(int v)
 		if( undefinedp(Last_level_up["a"]) )
 		{
 			newf = 1;
-			Last_level_up["a"] = ([ lvl : ([ "str" : 0,"cor" : 0,"int" : 0,"spi" : 0,"cps" : 0, "per" : 0, "con" : 0, "kar" : 0,]),]);	
+			Last_level_up["a"] = ([ lvl : ([ "str" : 0,"cor" : 0,"int" : 0,"spi" : 0,"cps" : 0, "per" : 0, "con" : 0, "kar" : 0,]),]);
 		}
-		else	
+		else
 		{
 			if( undefinedp(Last_level_up["a"][lvl]) )
 			{
@@ -378,7 +378,7 @@ varargs int reward_gift(int v)
 		if( undefinedp(Last_level_up["b"]) )
 		{
 			newf = 1;
-			Last_level_up["b"] = ([ lvl : ([ "str" : 0,"cor" : 0,"int" : 0,"spi" : 0,"cps" : 0, "per" : 0, "con" : 0, "kar" : 0,]),]);	
+			Last_level_up["b"] = ([ lvl : ([ "str" : 0,"cor" : 0,"int" : 0,"spi" : 0,"cps" : 0, "per" : 0, "con" : 0, "kar" : 0,]),]);
 		}
 		else
 		{
@@ -395,8 +395,8 @@ varargs int reward_gift(int v)
 		if( undefinedp(Last_level_up["c"]) )
 		{
 			newf = 1;
-			Last_level_up["c"] = ([ lvl : ([ "str" : 0,"cor" : 0,"int" : 0,"spi" : 0,"cps" : 0, "per" : 0, "con" : 0, "kar" : 0,]),]);	
-		}	
+			Last_level_up["c"] = ([ lvl : ([ "str" : 0,"cor" : 0,"int" : 0,"spi" : 0,"cps" : 0, "per" : 0, "con" : 0, "kar" : 0,]),]);
+		}
 		else
 		{
 			if( undefinedp(Last_level_up["c"][lvl]) )
@@ -412,7 +412,7 @@ varargs int reward_gift(int v)
 		if( undefinedp(Last_level_up["d"]) )
 		{
 			newf = 1;
-			Last_level_up["d"] = ([ lvl : ([ "str" : 0,"cor" : 0,"int" : 0,"spi" : 0,"cps" : 0, "per" : 0, "con" : 0, "kar" : 0,]),]);	
+			Last_level_up["d"] = ([ lvl : ([ "str" : 0,"cor" : 0,"int" : 0,"spi" : 0,"cps" : 0, "per" : 0, "con" : 0, "kar" : 0,]),]);
 		}
 		else
 		{
@@ -429,7 +429,7 @@ varargs int reward_gift(int v)
 		if( undefinedp(Last_level_up["e"]) )
 		{
 			newf = 1;
-			Last_level_up["e"] = ([ lvl : ([ "str" : 0,"cor" : 0,"int" : 0,"spi" : 0,"cps" : 0, "per" : 0, "con" : 0, "kar" : 0,]),]);	
+			Last_level_up["e"] = ([ lvl : ([ "str" : 0,"cor" : 0,"int" : 0,"spi" : 0,"cps" : 0, "per" : 0, "con" : 0, "kar" : 0,]),]);
 		}
 		else
 		{
@@ -466,8 +466,8 @@ varargs int reward_gift(int v)
 			tell_object(this_object(),HIY"【系统】你的〖 "HIG"活力"HIY" 〗增加了 "HIR+10+HIY" 点。\n"NOR);
 			return 1;
 		}
-	}	
-	
+	}
+
 	m_gift= ([
 		"将军府"	: ({1,1,1,1,1,0,2,0,}),
 		"月宫"		: ({1,1,1,2,1,0,1,0,}),
@@ -490,7 +490,7 @@ varargs int reward_gift(int v)
 	else if( undefinedp(m_gift[fam]) )
 		rewards = m_gift["百姓"];
 	else	rewards = m_gift[fam];
-	
+
 	for(i=0;i<sizeof(gifts);i++)
 	{
 		if( rewards[i]*v>0 )
@@ -509,10 +509,10 @@ varargs int reward_gift(int v)
 					Last_level_up["d"][lvl][gifts[i]]+=k;
 				else	Last_level_up["e"][lvl][gifts[i]]+=k;
 				tell_object(this_object(),HIY"【系统】你的〖 "HIG+prop[gifts[i]]+HIY" 〗增加了 "HIR+(k)+HIY" 点。\n"NOR);
-			}	
-		}	
+			}
+		}
 	}
-	
+
 	maxgin = this_object()->query("max_gin");
 	effgin = this_object()->query("eff_gin");
 	gin = this_object()->query("gin");
@@ -588,7 +588,7 @@ mixed add(string prop, mixed data)
 		"potential"	: "潜能",
 		"daoxing"	: "道行",
 	]);
-	
+
 	if( data && member_array(prop,keys(check))!=-1 )
 	{
 		old = (int)query(prop,1);
@@ -612,10 +612,10 @@ mixed add(string prop, mixed data)
                                                         tell_object(this_object(),HIY"【系统】你的人物等级只支持"HIR+this_object()->query_level()*5000+HIY"潜能，赶紧去完成任务升级吧。\n"NOR);
                                                         this_object()->set("channel/last_warr",time());
                                                 }
-						return 0;					
+						return 0;
 					}
-				}	
-				break;	
+				}
+				break;
 			case "combat_exp" :
 				if( (int)data>0 )
 				{
@@ -626,7 +626,7 @@ mixed add(string prop, mixed data)
                                                         tell_object(this_object(),HIY"【系统】你的武学修为已到瓶颈，赶紧去完成"HIY+"〖"HIR+chinese_number(this_object()->query_level()+1)+"级突破任务"HIY"〗吧。\n"NOR);
                                                         this_object()->set("channel/last_warr",time());
                                                 }
-						return 0;					
+						return 0;
 					}
 					lvl = this_object()->query_level();
 					max = this_object()->query_max_exp();
@@ -647,14 +647,14 @@ mixed add(string prop, mixed data)
 						}
 						else	tell_object(this_object(),HIR"【系统】等级升级失败。\n"NOR);
 					}
-				}		
+				}
 				break;
 			case "daoxing" :
 				if( (int)data>0 )
 				{
 					max = this_object()->query_max_daoxing();
 					if( this_object()->query("daoxing")>=max )
-					{		
+					{
 						this_object()->set("daoxing",max);
 						if( time()>this_object()->query("channel/last_warr")+600 )
                                                 {
@@ -663,10 +663,10 @@ mixed add(string prop, mixed data)
                                                 }
 						return 0;
 					}
-				}	
+				}
 				break;
 		}
-	}	
+	}
 	return ::add(prop, data);
 }
 
@@ -678,21 +678,21 @@ mixed doing_job(string type)
 	if( undefinedp(xy_job[type]) )
 		return 0;
 	now_j = xy_job[type];
-	if( undefinedp(now_j["doing"]) ) 
+	if( undefinedp(now_j["doing"]) )
 		return 0;
 	if( now_j["doing"]==0 )
 		return 0;
 	if( undefinedp(now_j["msg"]) )
-		return 1; 
-	return now_j["msg"];		
+		return 1;
+	return now_j["msg"];
 }
 
 int set_job_level(string type,int level)
 {
 	string *types = ({
 		"李靖任务","解密任务","门派任务","袁天罡任务","如来任务","送信任务","寻宝任务","分配任务","押镖任务","守城任务","杀手任务",
-	});	
-	
+	});
+
 	if( !type || member_array(type,types)==-1 )
 		return 0;
 	if( !xy_job_level || !mapp(xy_job_level) )
@@ -701,7 +701,7 @@ int set_job_level(string type,int level)
 		level = 0;
 	xy_job_level[type] = level;
 	return level;
-}			
+}
 
 mixed get_job(string type,mixed jobs)
 {
@@ -711,19 +711,19 @@ mixed get_job(string type,mixed jobs)
 	int succ,fail,level;
 	string *types = ({
 		"李靖任务","解密任务","门派任务","袁天罡任务","如来任务","送信任务","寻宝任务","分配任务","押镖任务","守城任务","杀手任务",
-	});	
-	
+	});
+
 	if( !type || member_array(type,types)==-1 )
 		return "任务获取错误，不可识别的job_type";
 	if( !jobs )
-		return "任务获取错误，不可识别的job参数";	
+		return "任务获取错误，不可识别的job参数";
 	if( !xy_job || !mapp(xy_job) )
-		xy_job = ([]);	
+		xy_job = ([]);
 	if( !undefinedp(xy_job[type]) )
 	{
 		if( doing_job(type) )
 			return "你已接了这个任务，请完成或者去任务发布者处取消此任务。\n*注：取消任务将会消耗你 1点活力。\n";
-	}				 
+	}
 	if( this_object()->query("gin")<1 )
 		return "你的活力不够了。";
 	if( arrayp(jobs) )
@@ -748,12 +748,12 @@ mixed get_job(string type,mixed jobs)
 		target_id = jobs["target_id"];
 		target_name = jobs["target_name"];
 		msg = jobs["msg"];
-		if( undefinedp(jobs["target"]) ) 
+		if( undefinedp(jobs["target"]) )
 			target = 0;
 		else	target = jobs["target"];
 	}
 	else	return "任务获取错误，不可识别的job_jobs";
-	
+
 	succ = fail = 0;
 	if( undefinedp(xy_job[type]) )
 		now_j = ([]);
@@ -767,8 +767,8 @@ mixed get_job(string type,mixed jobs)
 		succ+= now_j["succ"];
 	if( !undefinedp(now_j["fail"]) )
 		fail+= now_j["fail"];
-		
-	now_j["doing"] = 1;	
+
+	now_j["doing"] = 1;
 	now_j["target_id"] = target_id;
 	now_j["target_name"] = target_name;
 	now_j["target"] = target;
@@ -786,14 +786,14 @@ mixed cancel_job(string type)
 	mapping now_j;
 	string *types = ({
 		"李靖任务","解密任务","门派任务","袁天罡任务","如来任务","送信任务","寻宝任务","分配任务","押镖任务","守城任务","杀手任务",
-	});	
-	
+	});
+
 	if( !type || member_array(type,types)==-1 )
 		return "任务获取错误，不可识别的job_type";
 	if( undefinedp(xy_job[type]) )
 		return "你有做这个任务吗？";
 	if( !doing_job(type) )
-		return "你有做这个任务吗？";			
+		return "你有做这个任务吗？";
 	if( !this_object()->query_temp("job_cancel_warr") )
 	{
 		this_object()->set_temp("job_cancel_warr",1);
@@ -801,12 +801,12 @@ mixed cancel_job(string type)
 	}
 	if( this_object()->query("gin")<1 )
 		return "你的活力不够。";
-	this_object()->add("gin",-1);	
+	this_object()->add("gin",-1);
 	now_j = xy_job[type];
 	if( !undefinedp(now_j["fail"]) )
 		fail = now_j["fail"]+1;
 	else	fail = 1;
-	now_j["doing"] = 0;	
+	now_j["doing"] = 0;
 	now_j["target_id"] = 0;
 	now_j["target_name"] = 0;
 	if( !undefinedp(now_j["target"]) )
@@ -821,7 +821,7 @@ mixed cancel_job(string type)
 				message("vision",guai->name()+"急急忙忙的离开了。\n",environment(guai));
 			}
 			else if( !interactive(guai) ) destruct(guai);
-		}	
+		}
 	}
 	now_j["target"] = 0;
 	now_j["msg"] = 0;
@@ -831,7 +831,7 @@ mixed cancel_job(string type)
 	now_j["pot"] = 0;
 	now_j["gold"] = 0;
 	xy_job[type] = now_j;
-	set_job_level(type,0);	
+	set_job_level(type,0);
 	return "你真是没用，便再给你一次机会吧！";
 }
 
@@ -839,14 +839,14 @@ int query_job_level(string type)
 {
 	string *types = ({
 		"李靖任务","解密任务","门派任务","袁天罡任务","如来任务","送信任务","寻宝任务","分配任务","押镖任务","守城任务","杀手任务",
-	});	
+	});
 	if( !type || member_array(type,types)==-1 )
 		return 0;
 	if( !xy_job_level || !mapp(xy_job_level) )
 		return 0;
 	if( undefinedp(xy_job_level[type]) )
-		return 0;	
-	return xy_job_level[type];	
+		return 0;
+	return xy_job_level[type];
 }
 
 mixed finish_job(string type,int *prop)
@@ -855,15 +855,15 @@ mixed finish_job(string type,int *prop)
 	mapping now_j;
 	string *types = ({
 		"李靖任务","解密任务","门派任务","袁天罡任务","如来任务","送信任务","寻宝任务","分配任务","押镖任务","守城任务","杀手任务",
-	});	
+	});
 	if( !type || member_array(type,types)==-1 )
 		return "完成任务进程错误，不可识别的job_type";
 	if( !prop || !arrayp(prop) || sizeof(prop)<1 )
-		return "完成任务进程错误，不可识别的奖励阵列";		
+		return "完成任务进程错误，不可识别的奖励阵列";
 	if( undefinedp(xy_job[type]) )
 		return "完成任务进程错误：无任务标志";
 	if( !doing_job(type) )
-		return "完成任务进程错误：非进行状态";			
+		return "完成任务进程错误：非进行状态";
 	now_j = xy_job[type];
 	if( !undefinedp(now_j["succ"]) )
 		succ = now_j["succ"]+1;
@@ -888,7 +888,7 @@ mixed finish_job(string type,int *prop)
 		dx = prop[1];
 	}
 	else	exp = prop[0];
-	now_j["doing"] = 0;	
+	now_j["doing"] = 0;
 	now_j["target_id"] = 0;
 	now_j["target_name"] = 0;
 	now_j["target"] = 0;
@@ -900,7 +900,7 @@ mixed finish_job(string type,int *prop)
 	now_j["gold"] = gold;
 	xy_job[type] = now_j;
 	this_object()->save();
-	return "你完成了一个"+type;	
+	return "你完成了一个"+type;
 }
 
 mapping query_xy_job()

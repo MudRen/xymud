@@ -1,6 +1,6 @@
 //2001 by lestat
 // go.c
-#pragma save_binary
+// #pragma save_binary
 #include <ansi.h>
 inherit F_CLEAN_UP;
 #include "/cmds/std/valid_move.h";
@@ -64,17 +64,17 @@ int main(object me, string arg, int silent)
 	object *f_obs, *ob;
 	int valid;
     	int count = 0, my_dex, i,n,i_env,i_obj;
-	
+
 	if( !arg ) return notify_fail("你要往哪个方向走？\n");
 
-        if(!valid_move(me)) 
+        if(!valid_move(me))
         	return 0;
 
 	env = environment(me);
-	if(!env) 
+	if(!env)
 		return notify_fail("你哪里也去不了。\n");
 
-	if( !mapp(exit = env->query("exits")) || !exit[arg] ||  undefinedp(exit[arg]) ) 
+	if( !mapp(exit = env->query("exits")) || !exit[arg] ||  undefinedp(exit[arg]) )
 	{
 		if( query_verb()=="go")
 			return notify_fail("这个方向没有出路。\n");
@@ -90,9 +90,9 @@ int main(object me, string arg, int silent)
 	else if( !(obj = find_object(dest)) )
 		return notify_fail("无法移动。\n");
 	valid=(int)env->valid_leave(me, arg);
-	if( !valid ) 
+	if( !valid )
 		return 0;
-	if(valid>1) 
+	if(valid>1)
 		return 1;
 
 	if( !undefinedp(default_dirs[arg]) )
@@ -103,11 +103,11 @@ int main(object me, string arg, int silent)
 		ridemsg = ridee->query("ride/msg")+"着"+ridee->name()+"踏着一朵祥云";
         else  	ridemsg = "";
 
-        if(ridee && !valid_move(ridee)) 
+        if(ridee && !valid_move(ridee))
            return notify_fail("你的座骑走动不了。\n");
-           
+
 	if(me->is_ghost()&&domain_file(base_name(environment(me)))!="death")
- 	{              
+ 	{
  	        write(BLU"突然间阴风阵阵，你耳边响起一阵空洞而又阴森的声音:‘回来哟，回来哟!’\n"NOR);
 		write(HIW"一阵白雾将你裹了起来，你又回到了鬼门关\n"NOR);
                 me->move("/d/death/gate");
@@ -120,36 +120,36 @@ int main(object me, string arg, int silent)
 	n = NATURE_D->night();
 	i_env = (int)env->query("outdoors");
 	i_obj = (int)obj->query("outdoors");
-	
-	if( !n ) 
+
+	if( !n )
 		i=1;
-	if( !i_env && !i_obj) 
+	if( !i_env && !i_obj)
 		i=1;
-	if( n && i_env && !i_obj) 
+	if( n && i_env && !i_obj)
 		i=2;
-	if( n && ! i_env && i_obj) 
+	if( n && ! i_env && i_obj)
 		i=3;
-	if( n && i_env && i_obj ) 
+	if( n && i_env && i_obj )
 		i =4;
 
 	if(  me->is_jiguan() )
         {
         	if(  stringp(me->query("jiguan/mout")) )
                 	mout = me->query("jiguan/mout");
-        	else    mout = me->name()+"“轰隆”一声作响，往"+dir+"径直移动过去了。\n";     
+        	else    mout = me->name()+"“轰隆”一声作响，往"+dir+"径直移动过去了。\n";
         	if(  stringp(me->query("jiguan/min")) )
                 	min = me->query("jiguan/min");
-        	else    min = "“轰隆”一声巨响，",me->name()+"从"+dir+env->query("short") +"移动过来，周身机关“喀喀”直响。\n";  
-      		message( "vision", mout, environment(me), ({me}) ); 
-         	if(  me->move(obj, silent) )  
+        	else    min = "“轰隆”一声巨响，",me->name()+"从"+dir+env->query("short") +"移动过来，周身机关“喀喀”直响。\n";
+      		message( "vision", mout, environment(me), ({me}) );
+         	if(  me->move(obj, silent) )
          	{
-                	me->remove_all_enemy(); 
-                    	message( "vision", min, environment(me), ({me}) ); 
+                	me->remove_all_enemy();
+                    	message( "vision", min, environment(me), ({me}) );
                     	return 1;
 		}
          	return 0;
         }
-	else if( me->is_fighting() ) 
+	else if( me->is_fighting() )
 	{
 		str = "跌跌撞撞地跑了过来，模样有些狼狈。\n";
 	 	str1 = "往" + dir + env->query("short") +"落荒而逃了。\n";
@@ -184,7 +184,7 @@ int main(object me, string arg, int silent)
 		if( objectp(thing = me->query_temp("secondary_weapon")))
 			thing_msg+= "与"+thing->query("name");
 	}
-	else if( objectp(thing = me->query_temp("secondary_weapon")))		
+	else if( objectp(thing = me->query_temp("secondary_weapon")))
 		thing_msg += "手执" + thing->query("name");
 
 	if(  me->query("race") == "野兽")
@@ -196,7 +196,7 @@ int main(object me, string arg, int silent)
 	{
 		if( ridee = me->ride())
 		{
-			if( ridee && ridee->query("bird") ) 
+			if( ridee && ridee->query("bird") )
 			{
      				str="骑着"+ridee->name()+dir1+env->query("short") +"飞了过来。\n";
      				str1="骑着"+ridee->name()+"往" + dir  + "飞去。\n";
@@ -207,15 +207,15 @@ int main(object me, string arg, int silent)
 				str1="骑着"+ridee->name()+"往" + dir + "疾驰而去。\n";
 			}
 			switch( i)
-			{	
-				case 1 : 
+			{
+				case 1 :
 					mout = me->name() + str1;
 					min = me->name() + thing_msg +str;
 					break;
 				case 2 :
 					mout = "一条"+(me->query("gender") == "女性"?"倩影":"黑影") + str1;
 					min =  me->name() + thing_msg + str;
-					break;	
+					break;
 				case 3 :
 					mout = me->name() + str1;
 					min =  "一条"+(me->query("gender") == "女性"?"倩影":"黑影") + thing_msg + str;
@@ -229,15 +229,15 @@ int main(object me, string arg, int silent)
 		else
 		{
 			switch( i)
-			{	
-				case 1 : 
+			{
+				case 1 :
 					mout = me->name() + str1;
 					min = me->name() + thing_msg + str;
 					break;
 				case 2 :
 					mout = "一条"+(me->query("gender") == "女性"?"倩影":"黑影") + str1;
 					min =  me->name() + thing_msg + str;
-					break;	
+					break;
 				case 3 :
 					mout = me->name() + str1;
 					min =   "一条"+(me->query("gender") == "女性"?"倩影":"黑影") + thing_msg + str;
@@ -256,11 +256,11 @@ int main(object me, string arg, int silent)
 			message( "vision", "一个模糊的影子" +  mout, environment(me), ({me}) );
 		else	message( "vision", mout, environment(me), ({me}) );
 	}
-	
-	if( (! ridee || ridee->move(obj)) && me->move(obj, silent) ) 
+
+	if( (! ridee || ridee->move(obj)) && me->move(obj, silent) )
 	{
 		me->remove_all_enemy();
-		if( !wizardp(me) || (!me->query("env/invisibility")&& !me->is_yinshen()) ) 
+		if( !wizardp(me) || (!me->query("env/invisibility")&& !me->is_yinshen()) )
 		{
 	    		if( environment(me) && environment(me)->query("no_look"))
 		    		message( "vision", "一个模糊的影子" +  min, environment(me), ({me}) );
@@ -270,9 +270,9 @@ int main(object me, string arg, int silent)
 		if( env != obj)
 			all_inventory(env)->follow_me(me, arg);
 /////////////杀人犯通缉
-                if( me && userp(me) && me->query_condition("no_pk_time") && me->query_temp("rumor_time")+10<time() 
+                if( me && userp(me) && me->query_condition("no_pk_time") && me->query_temp("rumor_time")+10<time()
 		 && MISC_D->find_place(environment(me))!= me->query_temp("last_place") )
-		{ 
+		{
 			me->set_temp("last_place",MISC_D->find_place(environment(me)));
 		  	msg="听说官府通缉杀人犯"+HIW+me->query("name")+HIM+"最近在"+HIC+me->query_temp("last_place")+HIM+"附近出没。\n";
 			CHANNEL_D->do_channel(this_object(),"rumor",msg);
@@ -289,21 +289,21 @@ void do_flee(object me)
 	mapping exits;
 	string *directions;
 
-	if( !me || !environment(me) || !living(me) ) 
+	if( !me || !environment(me) || !living(me) )
 		return;
 	exits = environment(me)->query("exits");
-	if( !mapp(exits) || !sizeof(exits) ) 
+	if( !mapp(exits) || !sizeof(exits) )
 		return;
 	directions = keys(exits);
-	if( environment(me) && environment(me)->query("no_flee")) 
+	if( environment(me) && environment(me)->query("no_flee"))
 		return;
 	tell_object(me, "看来该找机会逃跑了．．．\n");
-        if( me->is_no_move() ) 
+        if( me->is_no_move() )
         {
         	tell_object (me, "可你被定住了，逃不掉！\n");
           	return;
         }
-	if( random(me->query_skill("dodge")/10 + me->query("kar")) < 10 ) 
+	if( random(me->query_skill("dodge")/10 + me->query("kar")) < 10 )
 	{
 		tell_object(me, "你逃跑失败。\n");
 	   	return;
@@ -315,11 +315,10 @@ int help(object me)
 {
 	write(@HELP
 指令格式 : go <方向>
- 
+
 让你往指定的方向移动。
- 
+
 HELP
     );
     return 1;
 }
-

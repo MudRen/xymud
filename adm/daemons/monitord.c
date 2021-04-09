@@ -1,7 +1,7 @@
 // monitord.c
 // by snowcat 6/20/97
 
-//#pragma optimize
+//// #pragma optimize
 
 #include <ansi.h>
 

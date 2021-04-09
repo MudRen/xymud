@@ -6,8 +6,8 @@
 // Last Modified By jingxue 12.25.2004 for xycq3
 // 增加现实节日判断
 
-//#pragma optimize
-//#pragma save_binary
+//// #pragma optimize
+//// #pragma save_binary
 
 #include <ansi.h>
 #include <command.h>
@@ -22,17 +22,17 @@
 #define ONE_YEAR_TIME 172800  // 每年所需要的时间,这里为48小时
 
 /**************************************************************************************************/
-#define GALA_C "无节日"  
-// 农历节日 
+#define GALA_C "无节日"
+// 农历节日
 // 遇到节日需要巫师自行修改此参数
 // 无农历节日修改为 无 或者 无节日
 // 有农历节日修改为 节日名称 例如 春节
 /**************************************************************************************************/
 
 /**************************************************************************************************/
-#define DOUBLE_REWARD 100  
-// 经验基数 
-// added by jingxue 12.25.2004 
+#define DOUBLE_REWARD 100
+// 经验基数
+// added by jingxue 12.25.2004
 // 计算让节日是否给予双倍或者多倍奖励
 // 系统遇到节日将给予双倍奖励
 // 巫师需要提高奖励只需要修改经验基数DOUBLE_REWARD
@@ -65,7 +65,7 @@ int query_double_reward(int type);	// 经验系数
 /**************************************************************************************************/
 
 mapping check_time(int time)
-{   
+{
 	int t;
     	mapping date;
 	mixed *local;
@@ -92,8 +92,8 @@ mapping check_time(int time)
 string xyjdate()
 {
 	string day;
-       	mapping date; 	  
- 	  
+       	mapping date;
+
        	date = check_time(time());
        	day = date["YEAR"]+"  "+date["MONTH"]+date["DAY"]+date["HOUR"]+date["MIN"]+"  "+date["WDAY"];
 
@@ -103,8 +103,8 @@ string xyjdate()
 string xyjtime()
 {
 	string day;
-       	mapping date; 	  
- 	  
+       	mapping date;
+
        	date = check_time(time());
        	day = date["YEAR"]+date["MONTH"]+date["DAY"];
 
@@ -131,13 +131,13 @@ string check_season()
 	month=date["MONTH"];
 	hour=date["HOURR"];
 
-	if(hour <6 && hour>0)                time="凌晨";  
-	     else if(hour<8 && hour >=6)     time="早上";    
-	     else if(hour<12 && hour>=8)     time="上午";   
-	     else if(hour==12)               time="中午";     
-	     else if(hour<19 && hour>12)     time="下午";    
-	     else if(hour<24 && hour>=19)    time="晚上";    
-	     else if (hour==24 || hour==0)   time="子夜";   
+	if(hour <6 && hour>0)                time="凌晨";
+	     else if(hour<8 && hour >=6)     time="早上";
+	     else if(hour<12 && hour>=8)     time="上午";
+	     else if(hour==12)               time="中午";
+	     else if(hour<19 && hour>12)     time="下午";
+	     else if(hour<24 && hour>=19)    time="晚上";
+	     else if (hour==24 || hour==0)   time="子夜";
 
 	switch (month) {
 	       case "十二月":
@@ -164,7 +164,7 @@ string check_season()
                season = "秋季的"+time; break;
 	       case "十一月":
                season = "深秋的"+time; break;
-       } 
+       }
        return season;
 }
 /**************************************************************************************************/
@@ -231,8 +231,8 @@ string check_weather_season()
 	       case "Default-Sun":
 	       season = "晴朗的凌晨"; break;
 		default: // 凌晨缺省时的描述
-	       season = "晴朗的凌晨"; 
-       } 
+	       season = "晴朗的凌晨";
+       }
 	}
 
       if( day_event() == "event_sunrise" ) {
@@ -288,8 +288,8 @@ string check_weather_season()
 	       case "Default-Sun":
 	       season = "晴朗的早晨"; break;
 		default: // 早晨缺省时的描述
-	       season = "晴朗的早晨"; 
-       } 
+	       season = "晴朗的早晨";
+       }
 	}
 
       if( day_event() == "event_morning" ) {
@@ -345,8 +345,8 @@ string check_weather_season()
 	       case "Default-Sun":
 	       season = "晴朗的上午"; break;
 		default://上午缺省时的描述
-	       season = "晴朗的上午"; 
-       } 
+	       season = "晴朗的上午";
+       }
 	}
 
       if( day_event() == "event_noon" ) {
@@ -402,8 +402,8 @@ string check_weather_season()
 	       case "Default-Sun":
 	       season = "晴朗的正午"; break;
 		default: // 正午缺省时的描述
-	       season = "晴朗的正午"; 
-       } 
+	       season = "晴朗的正午";
+       }
 	}
 
       if( day_event() == "event_afternoon" ) {
@@ -459,8 +459,8 @@ string check_weather_season()
 	       case "Default-Sun":
 	       season = "晴朗的下午"; break;
 		default: // 下午缺省时的描述
-	       season = "晴朗的下午"; 
-       } 
+	       season = "晴朗的下午";
+       }
 	}
 
       if( day_event() == "event_evening" ) {
@@ -516,8 +516,8 @@ string check_weather_season()
 	       case "Default-Sun":
 	       season = "晴朗的傍晚"; break;
 		default: // 傍晚缺省时的描述
-	       season = "晴朗的傍晚"; 
-       } 
+	       season = "晴朗的傍晚";
+       }
 	}
 
       if( day_event() == "event_night" ) {
@@ -573,9 +573,9 @@ string check_weather_season()
 	       case "Default-Sun":
 	       season = "晴朗的夜晚"; break;
 		default://夜晚缺省时的描述
-	       season = "晴朗的夜晚"; 
-       } 
-	} 
+	       season = "晴朗的夜晚";
+       }
+	}
 
       if( day_event() == "event_midnight" ) {
        switch (get_season) {
@@ -630,8 +630,8 @@ string check_weather_season()
 	       case "Default-Sun":
 	       season = "晴朗的午夜"; break;
 		default: // 午夜缺省时的描述
-	       season = "晴朗的午夜"; 
-       } 
+	       season = "晴朗的午夜";
+       }
 	}
 
 
@@ -698,8 +698,8 @@ string check_month_desc()
 	       case "Default-Sun":
 	       month_desc = "晴朗的"; break;
 		default://夜晚缺省时的描述
-	       month_desc = "晴朗的"; 
-       } 
+	       month_desc = "晴朗的";
+       }
 
        return month_desc;
 }
@@ -727,66 +727,66 @@ string check_sxt(object ob)
        switch (get_sx) {
 
 	       case "子鼠":
-	       sxt = 
+	       sxt =
 WHT"
  ◢"NOR BWHT WHT"▁"NOR"    "BWHT WHT"▁"NOR WHT"◣"WHT"
- █"BBLU BLK"▁"NOR BWHT CYN"▏"NOR BWHT BLK" ."NOR BBLU HIW"◣"NOR BWHT BLK"▁"NOR" 
-    "BWHT"▁▁▁"HIR"="NOR HIR"@="HIW" 
+ █"BBLU BLK"▁"NOR BWHT CYN"▏"NOR BWHT BLK" ."NOR BBLU HIW"◣"NOR BWHT BLK"▁"NOR"
+    "BWHT"▁▁▁"HIR"="NOR HIR"@="HIW"
 | ◢"BBLU"◤  ◥"NOR HIW"◣
  \\ "NOR BYEL" "NOR BBLU WHT"  ×  "NOR BYEL" "NOR"
  "BWHT BLK"◢"NOR BLK BWHT"█▃▃█◣"NOR"    [生肖]：子鼠
 "; break;
 
 	       case "丑牛":
-	       sxt = 
+	       sxt =
 HIY"
- ◢        ◣ 
+ ◢        ◣
  ◥"BYEL HIY"◤    ◥"NOR HIY"◤"NOR YEL"
 ◥◤"NOR BYEL BLK" .  . "NOR YEL"◥◤"HIW"
-  ◢"BWHT HIR" ︵︵ "NOR HIW"◣"NOR"  
-  "BWHT YEL"_▁"NOR" "BWHT YEL"▁"NOR" "BWHT YEL"▁_"NOR HIY"  
-    ◥"NOR BRED HIY"▁"NOR HIY"◤"NOR"       [生肖]：丑牛 
+  ◢"BWHT HIR" ︵︵ "NOR HIW"◣"NOR"
+  "BWHT YEL"_▁"NOR" "BWHT YEL"▁"NOR" "BWHT YEL"▁_"NOR HIY"
+    ◥"NOR BRED HIY"▁"NOR HIY"◤"NOR"       [生肖]：丑牛
 "; break;
 
 	       case "寅虎":
-	       sxt = 
+	       sxt =
 YEL"
-   ◣  ◢   
- ◢"BYEL BLK" .~~. "NOR YEL"◣ 
+   ◣  ◢
+ ◢"BYEL BLK" .~~. "NOR YEL"◣
 ◢"NOR BYEL BLK"≡"BWHT RED"◥◤"BYEL BLK"≡"NOR YEL"◣"HIY"
- ◥"BWHT HIY"◣"BLK"∣"BWHT HIY"◢"NOR HIY"◤"HIW" 
- ◢"HIY"▆"BYEL"  "NOR HIY"▆"HIW"◣ 
+ ◥"BWHT HIY"◣"BLK"∣"BWHT HIY"◢"NOR HIY"◤"HIW"
+ ◢"HIY"▆"BYEL"  "NOR HIY"▆"HIW"◣
  ``"NOR BYEL YEL"▆"BLK BYEL"×"NOR BYEL YEL"▆"NOR HIW"''"NOR"    [生肖]：寅虎
 "; break;
 
 	       case "卯兔":
-	       sxt = 
+	       sxt =
 HIW"
   ◢█  █◣"NOR"
-    "BWHT RED"▌"NOR"  "BRED WHT"▌"NOR HIW" 
+    "BWHT RED"▌"NOR"  "BRED WHT"▌"NOR HIW"
   ◢"NOR BWHT YEL"▔"HIR".."NOR BWHT YEL"▔"NOR HIW"◣
   ◢"NOR BWHT HIR"≡●≡"NOR HIW"◣
-   ("NOR BMAG YEL"▕"NOR BWHT YEL"∣"NOR BMAG YEL"▏"NOR HIW")  
+   ("NOR BMAG YEL"▕"NOR BWHT YEL"∣"NOR BMAG YEL"▏"NOR HIW")
 ◢"NOR BWHT YEL"▕"NOR BMAG HIW",,"NOR"  "BMAG HIW",,"NOR BWHT YEL"▏"NOR HIW"◣"NOR"    [生肖]：卯兔
 "; break;
 
 	       case "辰龙":
-	       sxt = 
+	       sxt =
 HIY"
-   ◢    ◣  
-   ◥◣◢◤   
-  ◥"NOR BYEL" "NOR BWHT BLK".\\/."NOR BYEL" "NOR HIY"◤  
- "HIR"__"HIY"◥"NOR BWHT BLK" ≡ "NOR HIY"◤"HIR"__ 
+   ◢    ◣
+   ◥◣◢◤
+  ◥"NOR BYEL" "NOR BWHT BLK".\\/."NOR BYEL" "NOR HIY"◤
+ "HIR"__"HIY"◥"NOR BWHT BLK" ≡ "NOR HIY"◤"HIR"__
 "HIC"◢"BCYN"◣"NOR HIY"◥"NOR BWHT".."NOR HIY"◤"NOR HIC BCYN"◢"NOR HIC"◣
 "HIW"▼▼"HIY"﹋  ﹋"HIW"▼▼"NOR"    [生肖]：辰龙
 "; break;
 
 	       case "巳蛇":
-	       sxt = 
+	       sxt =
 HIR"
-  ∩           
-"HIW"◢"NOR BWHT"   "NOR HIW"◣"NOR RED"  ╲    
-"HIR"` /"NOR WHT"◤"RED"◥"BWHT"╲"NOR WHT"◣"NOR RED"╲  
+  ∩
+"HIW"◢"NOR BWHT"   "NOR HIW"◣"NOR RED"  ╲
+"HIR"` /"NOR WHT"◤"RED"◥"BWHT"╲"NOR WHT"◣"NOR RED"╲
        ◥"NOR BWHT"╲"NOR RED"  ▎
  ◢"NOR BGRN RED"◥"NOR GRN"◣"NOR WHT"◢"RED"◤  ▌
  "HIW"◥"NOR BWHT RED"◣◣"NOR BGRN RED"◤ ◣"RED"◤"NOR"     [生肖]：巳蛇
@@ -794,40 +794,40 @@ HIR"
 
 	       case "午马":
 	       sxt =
-"    "BRED" "NOR WHT"◣  ◢"NOR BRED" "NOR"     
-    "HIW"◢"HIB"██"HIW"◣    
-    "NOR BLU BWHT"  .◥.  "NOR"      
- "BRED WHT"▅"NOR WHT" ◥"NOR BWHT BLK"＿＿"NOR WHT"◤ "NOR BRED WHT"▅"NOR" 
+"    "BRED" "NOR WHT"◣  ◢"NOR BRED" "NOR"
+    "HIW"◢"HIB"██"HIW"◣
+    "NOR BLU BWHT"  .◥.  "NOR"
+ "BRED WHT"▅"NOR WHT" ◥"NOR BWHT BLK"＿＿"NOR WHT"◤ "NOR BRED WHT"▅"NOR"
  "HIW"■ ◢"NOR BWHT BLK" oo "NOR HIW"◣ ■"NOR"
  "HIW"◥ ◥"NOR BWHT HIR"▃▃"NOR HIW"◤ ◤"NOR"     [生肖]：午马
 "; break;
 
 	       case "未羊":
-	       sxt = 
+	       sxt =
 CYN"
-   ◢◢"HIW"     
- ◢"BWHT BLK" . "NOR HIW"◣"NOR"     
- "BWHT RED"〞    "NOR HIW"         
+   ◢◢"HIW"
+ ◢"BWHT BLK" . "NOR HIW"◣"NOR"
+ "BWHT RED"〞    "NOR HIW"
   ◢"NOR BWHT BLK"╱    "NOR HIW"◣/"NOR"
-  "BWHT BLK"▕  ▁"NOR HIW"     
+  "BWHT BLK"▕  ▁"NOR HIW"
   ◤◤ ◥ ◥"NOR"    [生肖]：未羊
 "; break;
 
 	       case "申猴":
-	       sxt = 
+	       sxt =
 HIY"
-   ◢"BYEL HIW"▄▄"NOR HIY"◣"NOR"   
-  "HIW"("NOR BWHT BLK"  .  .  "NOR HIW")"NOR"  
-  "BYEL BLK"▔"NOR BWHT BLK" /..\\ "BYEL"▔"NOR"  
-  "HIY"◥"NOR BWHT HIR" (＝) "NOR HIY"◤"NOR"  
-  "HIY"█"NOR BWHT BLK"▏  ▕"NOR HIY"█"NOR"  
+   ◢"BYEL HIW"▄▄"NOR HIY"◣"NOR"
+  "HIW"("NOR BWHT BLK"  .  .  "NOR HIW")"NOR"
+  "BYEL BLK"▔"NOR BWHT BLK" /..\\ "BYEL"▔"NOR"
+  "HIY"◥"NOR BWHT HIR" (＝) "NOR HIY"◤"NOR"
+  "HIY"█"NOR BWHT BLK"▏  ▕"NOR HIY"█"NOR"
   "HIY"◥"NOR BWHT HIY"◣"BLK"×"HIY"◢"NOR HIY"◤"HIR"~~~"NOR"    [生肖]：申猴
 "; break;
 
 	       case "酉鸡":
-	       sxt = 
+	       sxt =
 "
- "HIR"◥◣◣"NOR"    
+ "HIR"◥◣◣"NOR"
  "HIY"◢"HBWHT BLK".   "NOR"  "WHT"◢◣
   "HBWHT HIR"▉ "NOR HIW"◤◢█◣"NOR"
    "HBWHT BLK"▕,,▕"NOR HIW"▇◥
@@ -836,9 +836,9 @@ HIY"
 "; break;
 
 	       case "戌狗":
-	       sxt = 
+	       sxt =
 HIW"
-  ,,,,"NOR"      
+  ,,,,"NOR"
   "BWHT BLK" ."RED"▇"NOR"
 "BWHT BLK"〞  "HIR"◥"NOR HIW"    ◢"NOR"
   "HIW"◢█◣◢◣"NOR"
@@ -847,7 +847,7 @@ HIW"
 "; break;
 
 	       case "亥猪":
-	       sxt = 
+	       sxt =
 HIW"
 ◢◣   ◢◣"NOR"
  "HIW"▇"NOR BWHT BLK".___."NOR HIW"▇"NOR"
@@ -858,8 +858,8 @@ HIW"
 "; break;
 
 		default:
-	       sxt = ""; 
-       } 
+	       sxt = "";
+       }
 
        return sxt;
 }
@@ -897,9 +897,9 @@ string query_time(int time)
 {
         string msg;
         int day, hour, min;
-        
+
         time=time()-time;
-        
+
         msg="";
         day=time/86400;
         hour=time%86400/3600;
@@ -921,9 +921,9 @@ string query_timec(int time)
 {
         string msg;
         int day, hour, min;
-        
+
         time=time()-time;
-        
+
         msg="";
         day=time/86400;
         hour=time%86400/3600;
@@ -992,17 +992,17 @@ string query_gala(int type)
 	int day, hour, minute, second, n_month;
         string *month_name = ({"Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"});
         string *week_name = ({"Mon","Tue","Wed","Thu","Fri","Sat","Sun"});
-	
+
         get_time = (string)localtime(time());
         if ( stringp(get_time) )
                 e_time = get_time;
         else e_time = ctime(time());
         sscanf(e_time,"%s %s %d %d:%d:%d %s", week, month, day, hour, minute, second, year);
-        
+
         week  = chinese_number(member_array(week, week_name) + 1);
 
         n_month = member_array(month, month_name) + 1;
-	
+
 // type为2 返回星期几的中文。
 	if (type == 2)
 		return week;
@@ -1023,7 +1023,7 @@ string query_gala(int type)
 }
 
 /**************************************************************************************************/
-// added by jingxue 12.25.2004 
+// added by jingxue 12.25.2004
 // 计算让节日是否给予双倍或者多倍奖励
 // 系统遇到节日将给予双倍奖励
 // 巫师需要提高奖励只需要修改经验基数DOUBLE_REWARD
@@ -1038,17 +1038,17 @@ int query_double_reward(int type)
 {
 	string gala;
 	int report_reward_w, report_reward_g;
-	
+
         gala = (string)query_gala(1);
-        if (gala != "无" && gala != "无节日") 
+        if (gala != "无" && gala != "无节日")
         	report_reward_g = 200;
-	else   	
+	else
 		report_reward_g = 100;
        	report_reward_w = DOUBLE_REWARD;
-       	
-        if (type) 
+
+        if (type)
         {
-                switch( type ) 
+                switch( type )
                 {
                         case 1: return 100;
                         case 2: return report_reward_g;
@@ -1104,7 +1104,7 @@ string chinese_time(string get_time)
                 e_time = get_time;
         else    e_time = ctime(time());
         sscanf(e_time,"%s %s %d %d:%d:%d %s", week, month, day, hour, minute, second, year);
-        
+
         c_week  = chinese_number(member_array(week, week_name) + 1);
         c_month = chinese_number(member_array(month, month_name) + 1);
         c_year  = sprintf("%s%s%s%s",

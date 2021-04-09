@@ -6,7 +6,7 @@
 inherit F_DBASE;
 #include <questd.h>
 
-#pragma save_binary
+// #pragma save_binary
 
 nosave mapping Rooms;
 void init_room();
@@ -17,7 +17,7 @@ void create()
 	set("channel_id", "清除精灵");
 	set_heart_beat(1);
 	init_room();
-	CHANNEL_D->do_channel(this_object(),"sys","全局地图清理已启动。");	
+	CHANNEL_D->do_channel(this_object(),"sys","全局地图清理已启动。");
 }
 
 int clean_up()
@@ -33,8 +33,8 @@ mixed *query_Rooms()
 	obj = keys(Rooms);
 	if( !obj || !arrayp(obj) || sizeof(obj)<1 )
 		return 0;
-	obj-=({0});	
-	return obj;	
+	obj-=({0});
+	return obj;
 }
 
 void remove_room(object ob)
@@ -56,7 +56,7 @@ void remove_room(object ob)
 			startroom = inv[i]->query("startroom");
 			if( !startroom )
 				startroom = "/d/city/kezhan";
-			inv[i]->move(startroom);	
+			inv[i]->move(startroom);
 		}
 		else	destruct(inv[i]);
 	}
@@ -70,7 +70,7 @@ void init_room()
 	if( !Rooms || !mapp(Rooms) )
 		Rooms = ([]);
 	else
-	{	
+	{
 		obj = keys(Rooms);
 		if( !obj || !arrayp(obj) || sizeof(obj)<1 )
 			return;
@@ -80,9 +80,9 @@ void init_room()
 			remove_room(obj[i]);
 			k++;
 		}
-		CHANNEL_D->do_channel(this_object(),"sys","共清除"+k+"个虚拟地图。");	
-	}	
-	CHANNEL_D->do_channel(this_object(),"sys","全局地图清理已初始成功。");	
+		CHANNEL_D->do_channel(this_object(),"sys","共清除"+k+"个虚拟地图。");
+	}
+	CHANNEL_D->do_channel(this_object(),"sys","全局地图清理已初始成功。");
 }
 
 void remove()
@@ -112,7 +112,7 @@ varargs mixed add_room(object ob,int delay)
 		else	Rooms[ob] = delay;
 	}
 	map_delete(Rooms,0);
-	return 1;	
+	return 1;
 }
 
 void check_rooms()
@@ -131,7 +131,7 @@ void check_rooms()
 		if( t<=0 )
 			remove_room(obj[i]);
 		else	Rooms[obj[i]] = t;
-	}		
+	}
 }
 
 void heart_beat()

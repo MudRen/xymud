@@ -1,9 +1,9 @@
 // 神话世界·西游记·版本４．５０
 /* <SecCrypt CPL V3R05> */
- 
+
 /* rewritten by Snowcat */
 
-#pragma optimize
+// #pragma optimize
 
 inherit F_DBASE;
 
@@ -112,7 +112,7 @@ int cvrt(int *a1, mixed *am, int i, int *result, int n)
 {
     int k = 0;
     int x, codeDes = a1[i];
-    
+
    if (codeDes == 0) return(0);
     result[0] = codeDes;
     if (am[i])
@@ -191,7 +191,6 @@ string output (string str, object me)
 
 void create()
 {
-	seteuid(getuid());    
+	seteuid(getuid());
 	set("channel_id", "字码精灵");
 }
-

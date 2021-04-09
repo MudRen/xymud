@@ -176,7 +176,6 @@ string filter_color(string arg)
         return arg;
 }
 
-
 // trans_color
 // raw = 0, only forecolor
 // raw = 1, include backround color
@@ -414,8 +413,8 @@ varargs string random_color(int type, int back, int blink)
         else color = "";
 
         if( back ) {
-                int j;
-                if( i > -1 && i < 8 ) 
+                // int j;
+                if( i > -1 && i < 8 )
                         color_b -= ({ color_b[i] });
                 color += color_b[random(sizeof(color_b))];
         }
@@ -455,8 +454,8 @@ nomask mapping _count(mixed v)
 	if( !intp(v) )
 	{
 		return 0;
-	}		
-	
+	}
+
 	g = v;
 	if( g/10000 )
 	{
@@ -486,7 +485,7 @@ nomask string _query_count2(mixed temp)
 {
 	int w_y,y,w,g;
 	string str,tmp;
-	
+
 	if( intp(temp) )
 		temp = _count(temp);
 	else if( !temp || !mapp(temp) )
@@ -495,7 +494,7 @@ nomask string _query_count2(mixed temp)
 			"yi"	: 0,
 			"wan"	: 0,
 			"ge"	: 0,
-		]);	
+		]);
 	if( undefinedp(temp["wanyi"]) )
 		temp["wanyi"] = 0;
 	if( undefinedp(temp["yi"]) )
@@ -504,16 +503,16 @@ nomask string _query_count2(mixed temp)
 		temp["wan"] = 0;
 	if( undefinedp(temp["ge"]) )
 		temp["ge"] = 0;
-		
+
 	w_y = (int)temp["wanyi"];
 	y = (int)temp["yi"];
 	w = (int)temp["wan"];
 	g = (int)temp["ge"];
 	str = "";
-	
+
 	if( w_y==0 && y==0 && w==0 && g==0 )
 		return "0";
-	
+
 	if( w_y>0 )
 	{
 		tmp = w_y+"";
@@ -524,7 +523,7 @@ nomask string _query_count2(mixed temp)
 		else if( strlen(tmp)==2 )
 			str+= sprintf("%c%c",tmp[0],tmp[1]);
 		else	str+= sprintf("%c",tmp[0]);
-	}	
+	}
 	if( y>0 )
 	{
 		tmp = y+"";
@@ -563,7 +562,7 @@ nomask string _query_count2(mixed temp)
 		else if( strlen(tmp)==2 )
 			str+= (y>0||w_y>0||w>0?"00":"")+g;
 		else	str+= (y>0||w_y>0||w>0?"000":"")+g;
-	}	
+	}
 	else if( w_y>0 || y>0 || w>0 )
 		str+= "0000";
 	return str;
@@ -584,4 +583,4 @@ nomask int count_int(mixed num)
 	str = _query_count2(temp);
 	sscanf(str,"%d",v);
 	return v;
-}		
+}
