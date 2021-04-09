@@ -1,0 +1,12 @@
+/adm/daemons/natured.c line 49: Bad argument 1 to efun debug_message() before ;
+/adm/daemons/natured.c line 49: syntax error before 
+/adm/daemons/natured.c line 50: Illegal LHS before 
+/adm/daemons/natured.c line 50: syntax error before 
+/adm/daemons/natured.c line 51: Illegal LHS before 
+/adm/daemons/natured.c line 51: syntax error before 
+/adm/daemons/natured.c line 60: Illegal LHS before break;
+/adm/daemons/natured.c line 139: Bad assignment ( mixed * vs int ). before 
+/adm/daemons/natured.c line 175: Bad assignment ( mixed * vs int ). before 
+/adm/daemons/natured.c line 137: Undefined variable 'TIME_TICK1' before ;
+/adm/daemons/natured.c line 173: Undefined variable 'TIME_TICK1' before ;
+/adm/daemons/natured.c line 324: Undefined variable 'TIME_TICK1' before ;
