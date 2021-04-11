@@ -20,9 +20,9 @@
 #define TIME_TICK2 		(time()-0)
 //#define TIME_TICK3 		(1177851156)*60
 //#define TIME_TICK1 		((time()-890000000)*60)
-//#define TIME_TICK 		((time()-900000000)*60) 
+//#define TIME_TICK 		((time()-1000000000)*60)
 //#define TIME_TICK1 		((time()-1057442400)*60)
-//#define TIME_TICK 		((time()-957542400)*60) 
+//#define TIME_TICK 		((time()-957542400)*60)
 
 #define DROP_CMD		"/cmds/std/drop"
 #define GET_CMD			"/cmds/std/get"

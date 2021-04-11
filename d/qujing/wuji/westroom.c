@@ -19,7 +19,7 @@ nosave mapping *day_phase = NATURE_D->query_day_phase();
 
 int get_current_day_phase() {
     // ref. /adm/daemons/natured.c:init_day_phase()
-    mixed *local = localtime((time()-900000000)*60);
+    mixed *local = localtime((time()-1000000000)*60);
     int t = local[2] * 60 + local[1];
     int i;
     for (i=0; i<sizeof(day_phase); i++)
@@ -71,10 +71,10 @@ int do_sleep (string arg)
   message_vision ("$N试着躺下想睡着，但心里有点忐忑不安。\n",who);
   remove_call_out ("create_king");
   call_out ("create_king",2+random(10));
-  return 1; 
+  return 1;
 }
 
-int create_king() 
+int create_king()
 {
   object  king;
 
@@ -102,4 +102,3 @@ void reset_given ()
 
   me->set("has_given",0);
 }
-

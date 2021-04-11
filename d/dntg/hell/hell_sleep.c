@@ -19,7 +19,7 @@ nosave mapping *day_phase = NATURE_D->query_day_phase();
 
 int get_current_day_phase() {
     // ref. /adm/daemons/natured.c:init_day_phase()
-    mixed *local = localtime((time()-900000000)*60);
+    mixed *local = localtime((time()-1000000000)*60);
     int t = local[2] * 60 + local[1];
     int i;
     for (i=0; i<sizeof(day_phase); i++)
@@ -57,7 +57,7 @@ int do_sleep (string arg)
   message_vision ("$N喝得酩酊大醉，倚在在铁板桥边松阴之下，霎时间睡着了。\n",me);
   remove_call_out ("go_hell");
   call_out ("go_hell",2+random(5),me);
-  return 1; 
+  return 1;
 }
 
 void go_hell(object me) {
@@ -74,7 +74,7 @@ void go_hell(object me) {
 
   string wang1=wang[random(10)];
   me->set_temp("dntg_hell/next",wang1);
-  
+
   tell_object(me,HIB"\n睡梦中忽见两人走了过来，大声喝道：“"+me->query("name")+
                "，汝阳寿已尽，吾等奉冥王之命，特来勾你。”\n"
                 +"说罢不容分说，拿根铁索往你颈上一套，拉了就走。\n\n"NOR);

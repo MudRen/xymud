@@ -4,8 +4,8 @@ inherit SSERVER;
 
 string time_wuxing()
 {
-	string shi,*sym_dee = ({ "子","丑","寅","卯","辰","巳","午","未","申","酉","戌","亥" });	
-	int t = ((time()-900000000)*60);
+	string shi,*sym_dee = ({ "子","丑","寅","卯","辰","巳","午","未","申","酉","戌","亥" });
+	int t = ((time()-1000000000)*60);
 	mixed *local = localtime(t);
 	shi = sym_dee[(local[2]%24)/2];
 	switch(shi)
@@ -25,7 +25,7 @@ string time_wuxing()
 		default   : return "NONE";
 	}
 }
-        
+
 string name(){return "「相生相克」";}
 
 int valid_perform(object me)
@@ -35,9 +35,9 @@ int valid_perform(object me)
 	if( me->query_skill("wuxing-quan", 1)<50 )
         	return notify_fail("你的"+to_chinese("wuxing-quan")+"等级不足。\n");
 	if( me->query("force")<100 )
-        	return notify_fail("你的真气不足。\n");  
+        	return notify_fail("你的真气不足。\n");
 	if( me->query("kee")<50 )
-        	return notify_fail("你的气血不足。\n");  
+        	return notify_fail("你的气血不足。\n");
 	return 1;
 }
 
@@ -51,7 +51,7 @@ int check_wx(object me,object who)
 	wx1 = FAMILY_D->family_wuxing(me);
 	wx2 = time_wuxing();
 	i+= SPELL_D->wuxing_xs(wx1,wx2);
-	wx2 = FAMILY_D->family_wuxing(who);	
+	wx2 = FAMILY_D->family_wuxing(who);
 	i+= SPELL_D->wuxing_xs(wx1,wx2);
 	return i;
 }
@@ -63,7 +63,7 @@ int perform(object me, object target)
 
 	if( !valid_perform(me) )
         	return 0;
-	if( !target ) 
+	if( !target )
         	target = offensive_target(me);
 	if( !target
   	 || !target->is_character()
@@ -89,7 +89,7 @@ int perform(object me, object target)
 		}
 		else if( p>1 )
 			COMBAT_D->do_attack(me,target,me->query_temp("weapon"),TYPE_PERFORM,0,0,0,damage);
-	}	
+	}
 	me->start_busy(1);
 	return 1;
 }
@@ -107,7 +107,7 @@ int help(object me)
         外功条件：
                   人物等级 5 级
                   内力100点，消耗50点
-		  气血50点，消耗10点 
+		  气血50点，消耗10点
                   五行拳 50 级
 STR;
         me->start_more(str);

@@ -31,7 +31,7 @@ varargs string query_time(int data)
 {
 	mixed *local;
 	if( !data || data<=0 )
-		data = ((time()-900000000)*60);
+		data = ((time()-1000000000)*60);
 	local = localtime(data);
 	return sprintf("%s",chinese_number(local[LT_HOUR]%2 * 2 + local[LT_MIN]/30 + 1));
 }
@@ -43,7 +43,7 @@ void init_time()
 		return;
 	strs = ({ "子","丑","戌","亥" });
 	str = strs[random(sizeof(strs))];
-	set("time",str);			
+	set("time",str);
 }
 
 int do_look(string arg)
@@ -56,7 +56,7 @@ int do_look(string arg)
 		return 0;
 	if( !query("time") )
 		init_time();
-	shi = query("time");	
+	shi = query("time");
 	arg = this_object()->long();
 	arg+= "\n扉页上刻着几个古朴篆书：";
 	if( random(me->query_skill("literate",1)/10)<10 )
@@ -114,7 +114,7 @@ void shiyue(object me,object env)
 			tell_object(me,HIY"【师门】你领悟「"HIR"蚀月咒"HIY"」失败！"NOR"\n");
 			destruct(this_object());
 			return;
-			
+
 		}
 	}
 	else
@@ -130,24 +130,24 @@ void shiyue(object me,object env)
 		me->start_busy(10);
 		call_out("shiyue",2+random(5),me,env);
 	}
-	
+
 }
 
-int do_canwu(string arg)			
+int do_canwu(string arg)
 {
-	int t;		
+	int t;
 	string year,mon,day,shi,ke;
 	object env,me = this_player();
 	if( !arg || !id(arg) || !present(this_object(),me) )
 		return 0;
-	if( query("owner_id")!=me->query("id") 
+	if( query("owner_id")!=me->query("id")
 	 || me->query("family/family_name")!="月宫" )
 		return 0;
 	if( !query("time") )
 		return 0;
 	env = environment(me);
 	if( !wizardp(me) && !me->query("env/test") )
-	{				
+	{
 		t = NATURE_D->query_current_day_phase();
 		if( t<6 )
 			return err_msg("大白天的哪儿有月光？！\n");
@@ -168,4 +168,4 @@ int do_canwu(string arg)
 	remove_call_out("shiyue");
 	call_out("shiyue",3+random(4),me,env);
 	return 1;
-}					
+}

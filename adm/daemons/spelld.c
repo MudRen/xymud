@@ -37,13 +37,13 @@ int check_wuxing_kx(object who,object target);
 int skill_xiangke(string spell1, string spell2)
 {
 int neutral=0;
-int result;    
-if ( undefinedp(table[spell1]) 
-  || undefinedp(table[spell2])) 
+int result;
+if ( undefinedp(table[spell1])
+  || undefinedp(table[spell2]))
         return neutral;
-if ( member_array(spell1, table[spell2])>-1 ) 
+if ( member_array(spell1, table[spell2])>-1 )
         result=-1;// spell2 can 克制 spell1.
-else if ( member_array(spell2, table[spell1])>-1 )  
+else if ( member_array(spell2, table[spell1])>-1 )
         result=1;// spell1 can 克制 spell2.
 else    result=neutral;
 return result;
@@ -61,7 +61,7 @@ int check_xiangke(object obj1, object obj2)
 {
 int neutral=0;
 int result;
-string skill1, skill2;    
+string skill1, skill2;
 
 skill1 = obj1->query_skill_mapped("spells");
 skill2 = obj2->query_skill_mapped("spells");
@@ -72,9 +72,9 @@ else if ( !skill1 && skill2 )
 else if ( skill1 && !skill2 )
         return 1;
 // need at least 20 level of special spells.
-if ( (int)obj1->query_skill(skill1,1)<20 ) 
+if ( (int)obj1->query_skill(skill1,1)<20 )
         return neutral;
-if ( (int)obj2->query_skill(skill2,1)<20 ) 
+if ( (int)obj2->query_skill(skill2,1)<20 )
         return neutral;
 result = skill_xiangke(skill1, skill2);
 return result;
@@ -99,8 +99,8 @@ int valid_damage(object me,object target,int damage)
 int attacking_cast_success(object attacker, object target, int success_adj)
 {
 	int ap, dp, success ,dpp;
-	int xk; 
-	
+	int xk;
+
 	ap = attacker->query_skill("spells");
 	ap = ( ap*ap/1000*ap  ); //年做单位进行比较判断.道行超过5000年,提高命中.
 	ap = ap*(1+attacker->query("daoxing")/5000000);//5000年道行导致ap*11
@@ -109,38 +109,38 @@ int attacking_cast_success(object attacker, object target, int success_adj)
 	if( !living(target) )
 		dp = 0;
 	else if( target->is_busy() )
-		dp = dp-random(dp/3);		
+		dp = dp-random(dp/3);
 	success = 0;
-	if( success_adj < 20 ) 
+	if( success_adj < 20 )
 		success_adj = 20;
-	else if( success_adj > 500 ) 
+	else if( success_adj > 500 )
 		success_adj = 500;
 	ap = ap*success_adj/100;
 	xk = check_xiangke(attacker, target);
 	if( xk==1)
-    	dp = dp-random(dp/3);		
-	else if(xk==-1) 
-    	ap = ap-random(ap/3);		
+    	dp = dp-random(dp/3);
+	else if(xk==-1)
+    	ap = ap-random(ap/3);
 	xk=0;
 	xk = check_wuxing_kx(attacker,target);
 	if( xk==1)
-    	dp = dp-random(dp/3);		
-	else if(xk==-1) 
+    	dp = dp-random(dp/3);
+	else if(xk==-1)
     	ap = ap-random(ap/3);
 	if( ap<1 ) ap = 1;
-	if( dp<1 ) dp = 1;    			
+	if( dp<1 ) dp = 1;
 	dpp = attacker->query_temp("apply/cast_succ");
 	if( dpp<0 ) dpp = 0;
 	if( dpp>50 ) dpp = 50;
 	ap = ap+ap/100*dpp;
-	
+
 	dpp = 0;
 	dpp = target->query_temp("apply/cast_dodge");
 	if( dpp<0 ) dpp = 0;
 	if( dpp>50 ) dpp = 50;
 	dp = dp+dp/100*dpp;
-	
-// Add by jingxue   
+
+// Add by jingxue
 // 增加法术抵抗率的设置，通过装备有一定几率可以抵抗法术
 // Here apply/resist_spells 为法术抗率
 //dpp = target->query_temp("apply/resist_spells");
@@ -155,15 +155,15 @@ int attacking_cast_damage(object attacker, object target, int damage_adj)
 {
 int a_fali, d_fali, damage, damage_bonus ,d_damage;
 int xk,ss;
-if ( damage_adj < 50 ) 
+if ( damage_adj < 50 )
         damage_adj = 50;
-else if( damage_adj > 200 ) 
+else if( damage_adj > 200 )
         damage_adj = 200;
 a_fali = attacker->query("mana");
-if( a_fali>2*attacker->query("max_mana") ) 
+if( a_fali>2*attacker->query("max_mana") )
         a_fali = 2*attacker->query("max_mana");
 d_fali = target->query("mana");
-if ( d_fali>2*target->query("max_mana") ) 
+if ( d_fali>2*target->query("max_mana") )
         d_fali = 2*target->query("max_mana");
 a_fali=a_fali/40+random(attacker->query("eff_sen") / 20);
 d_fali=d_fali/40+random(target->query("eff_sen") / 20);
@@ -174,13 +174,13 @@ ss = attacker->query_temp("apply/no_cast_redamage");
 if ( ss>100 )
         ss = 100;
 if ( ss>0 )
-        a_fali+= a_fali/100*ss; 
+        a_fali+= a_fali/100*ss;
 //增加法力反弹几率的装备
 ss = target->query_temp("apply/cast_redamage");
 if ( ss>100 )
         ss = 100;
 if ( ss>0 )
-        d_fali+= d_fali/100*ss; 
+        d_fali+= d_fali/100*ss;
 if( a_fali > d_fali )        //由于高段位以后升级缓慢,伤害必须封顶
         {
         damage=a_fali-d_fali;
@@ -195,19 +195,19 @@ if( a_fali > d_fali )        //由于高段位以后升级缓慢,伤害必须封
         if( damage < 50 ) damage = 50;//最小伤害
         //if( damage > 5000 ) damage = 5000;//伤害封顶
         }
-else if( d_fali > a_fali ) 
-        {   
+else if( d_fali > a_fali )
+        {
         if( d_fali > 400 ) d_fali = 400;
         damage = d_fali;//鼓励使用法术,反震伤害封顶
-        damage = damage - target->query("mana_factor"); 
+        damage = damage - target->query("mana_factor");
         damage = damage*damage_adj/100;
         damage_bonus = (int)attacker->query_skill("spells")/100;
         if(damage_bonus < 1) damage_bonus = 1;
         if(damage_bonus > 10) damage_bonus = 10;
         damage += damage/damage_bonus;//自身修为的高低在这里起到作用
         }
-else    damage=a_fali-d_fali;   
-damage = valid_damage(attacker,target,damage);     
+else    damage=a_fali-d_fali;
+damage = valid_damage(attacker,target,damage);
 return damage;
 }
 
@@ -244,23 +244,23 @@ void apply_damage(object winner, object victim, int damage, string damage_type, 
         }
 	}
 //假如wuxing winner被victim所克 ,damage减半
-	if( check_wuxing_kx(winner,victim)==-1 )  
+	if( check_wuxing_kx(winner,victim)==-1 )
     	damage/= 2;
 	if( damage <= 0 )
 		damage = 1;
-	if(damage_type == "qi" || damage_type == "kee") 
+	if(damage_type == "qi" || damage_type == "kee")
     {
     	damage_qi = damage;
         damage_shen = 0;
         type = 0;
 	}
-	else if(damage_type == "shen" || damage_type == "sen") 
+	else if(damage_type == "shen" || damage_type == "sen")
     {
         damage_qi = 0;
         damage_shen = damage;
         type = 1;
     }
-	else    
+	else
 	{
         damage_qi = damage;
         damage_shen = damage;
@@ -287,12 +287,12 @@ void apply_damage(object winner, object victim, int damage, string damage_type, 
                     	if( !f_msg || !stringp(f_msg) )
                     		f_msg = msg_fabao[def_count];
                         message_vision(f_msg, victim, inv[i]);
-                        def_count++;    
+                        def_count++;
                         if( def_count>3 )
                         	def_count=0;
 					}
                 }
-        		
+
         		if( (type == 1) || (type == 2) ) //check if can reduce damage_shen.
                 {
                 	temp = inv[i]->protect_shen(damage_shen);//temp is the damage left after fabao takes effect.
@@ -303,14 +303,14 @@ void apply_damage(object winner, object victim, int damage, string damage_type, 
                     	if( !f_msg || !stringp(f_msg) )
                     		f_msg = msg_fabao[def_count];
                         message_vision(msg_fabao[def_count], victim, inv[i]);
-                        def_count++;    
+                        def_count++;
                         if( def_count>3 )
                         	def_count=0;
 					}
                 }
         	}//end of for i=0 loop.
         }
-    }	
+    }
 //finally we can make damage to the victim...
 	if( damage_qi > 0 || damage_shen > 0 )
     	message_combatd(msg_hit, winner, victim);        //produce the hit message...
@@ -319,37 +319,37 @@ void apply_damage(object winner, object victim, int damage, string damage_type, 
 	if( damage_qi > 0 )
     {
     	victim->receive_damage("kee", damage_qi*3/5, winner,TYPE_CAST);
-        victim->receive_wound("kee", damage_qi/2, winner,TYPE_CAST);  
-        COMBAT_D->report_status(victim);    
+        victim->receive_wound("kee", damage_qi/2, winner,TYPE_CAST);
+        COMBAT_D->report_status(victim);
 	}
 	if( damage_shen > 0 )
     {
         victim->receive_damage("sen", damage_shen*3/5, winner,TYPE_CAST);
-        victim->receive_wound("sen", damage_shen/2, winner,TYPE_CAST);    
+        victim->receive_wound("sen", damage_shen/2, winner,TYPE_CAST);
         COMBAT_D->report_sen_status(victim);
     }
 	return;
 }
 
 void attacking_cast(
-    object attacker, 
-    object target, 
-    int success_adj, 
+    object attacker,
+    object target,
+    int success_adj,
     int damage_adj, //default value is 100 for this 2 parameters.
     string damage_type, //must be "shen"/"sen", "qi"/"kee" or "both"(default)
-    string msg_init, 
-    string msg_success, 
-    string msg_fail, 
+    string msg_init,
+    string msg_success,
+    string msg_fail,
     string msg_backfire_init,
     string msg_backfire_success)
 {
 int damage;
 message_vision( msg_init, attacker, target );
-    
+
 if ( attacking_cast_success(attacker, target, success_adj) == 0 )
         {
         message_combatd( msg_fail, attacker, target );
-        target->kill_ob(attacker);  
+        target->kill_ob(attacker);
         return;
         }
 damage = attacking_cast_damage(attacker, target, damage_adj);
@@ -376,23 +376,23 @@ varargs int wuxing_xs(string wx1,string wx2)
 	xsh = ([
 		"金" : "水", "水" : "木", "木" : "火","火" : "土", "土" : "金",
 	]);
-	if( !wx1 || !wx2 
+	if( !wx1 || !wx2
 	 || member_array(wx1,wxs)==-1
 	 || member_array(wx2,wxs)==-1 )
 		return 0;
 	if( xsh[wx1]==wx2 )
-		return 2;	
+		return 2;
 	else if( wuxing[wx1]==wx2 )
 		return 1;
 	else if( wuxing[wx2]==wx1 )
 		return -1;
 	else	return 0;
-}		
+}
 
 string query_time_wuxing()
 {
-	string shi,*sym_dee = ({ "子","丑","寅","卯","辰","巳","午","未","申","酉","戌","亥" });	
-	int t = ((time()-900000000)*60);
+	string shi,*sym_dee = ({ "子","丑","寅","卯","辰","巳","午","未","申","酉","戌","亥" });
+	int t = ((time()-1000000000)*60);
 	mixed *local = localtime(t);
 	shi = sym_dee[(local[2]%24)/2];
 	switch(shi)
@@ -422,8 +422,8 @@ int check_wuxing_kx(object who,object target)
 	if( !wx1 )
 		wx1 = query_time_wuxing();
 	else	wx1 = COLOR_D->replace_color(wx1);
-	
-	wx2 = FAMILY_D->family_wuxing(target);				
+
+	wx2 = FAMILY_D->family_wuxing(target);
 	if( !wx2 )
 		wx2 = query_time_wuxing();
 	else	wx2 = COLOR_D->replace_color(wx2);

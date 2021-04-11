@@ -17,7 +17,7 @@ void strip(object);
 
 int get_current_day_phase() {
     // ref. /adm/daemons/natured.c:init_day_phase()
-    mixed *local = localtime((time()-900000000)*60);
+    mixed *local = localtime((time()-1000000000)*60);
     int t = local[2] * 60 + local[1];
     int i;
     for (i=0; i<sizeof(day_phase); i++)
@@ -92,7 +92,7 @@ void strip(object me) {
   for (int i=0;i<sizeof(inv);i++)
     if (userp(inv[i])) inv[i]->move(dest);
     else destruct(inv[i]);
-  
+
 }
 void init() {
   int phase = NATURE_D->query_current_day_phase();
@@ -106,24 +106,24 @@ int do_fill(string arg) {
   int phase = NATURE_D->query_current_day_phase();
     int r;
 
-    if (!arg && arg!="hai" && arg!="sea") 
+    if (!arg && arg!="hai" && arg!="sea")
        return notify_fail("你要填什么？\n");
 
 /*
-    if (phase < 6) 
+    if (phase < 6)
         remove_action("do_fill","fill");
 */
- 
+
     if (me->is_fighting() || me->is_busy() ) {
         write("你正忙着呢。\n");
         return 1;
-    }   
+    }
     if (me->query("kee")<500 || me->query("sen")<500 ||
         me->query("mana") <1000 || me->query("force")<1000) {
             write("你太累了，还是歇会儿吧。\n");
         return 1;
     }
-        
+
   stone=present("shi kuai",me);
   if (!stone || stone->query_amount()==0)
   {
@@ -142,4 +142,3 @@ int do_fill(string arg) {
     me->start_busy(3+random(3));
     return 1;
 }
-    

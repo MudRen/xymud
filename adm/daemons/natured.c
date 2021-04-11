@@ -5,7 +5,7 @@
 
 #include <ansi.h>
 
-#define TIME_TICK ((time()-900000000)*60)
+#define TIME_TICK ((time()-1000000000)*60)
 #define TIME_TICK1 ((time()-1150000000)*60)
 /*
 #define TIME_TICK ((time()-1150000000)*60)
@@ -101,7 +101,7 @@ void create()
       				day_phase = read_table("/adm/etc/nature/spring");
       				Jijie = "春";
       			}
-      			else 
+      			else
       			{
       				switch(random(3))
      				{
@@ -110,9 +110,9 @@ void create()
 					default: day_phase = read_table("/adm/etc/nature/winter_wind");break;
      				}
      				Jijie = "冬";
-     			}	
+     			}
              		break;
-		default: 
+		default:
 			day_phase = read_table("/adm/etc/nature/day_phase");
 			Jijie = "NONE";
 			break;
@@ -121,14 +121,14 @@ void create()
 }
 mixed *getTime(int date) {
 	int curYear, curMonth, curDay, curSheChen, curKe, curDayTime;
-	
+
 	curDayTime = date % 1440;
 	curKe = (date % 120) / 30;
 	curSheChen = (date / 120) % 12;
 	curDay = (date / 1440) % 30;
 	curMonth = (date / 43200) % 12;
 	curYear = (date / 518400);
-	
+
 	return ({curKe, curSheChen, curDay, curMonth, curYear, curDayTime});
 }
 void update_jijie()
@@ -146,7 +146,7 @@ void update_jijie()
 		case "六":
 		case "七":
 		case "八": Jijie = "夏";break;
-		case "九": 
+		case "九":
 		case "十":
 		case "十一":Jijie = "秋";break;
                 case "零":
@@ -157,14 +157,14 @@ void update_jijie()
       			else 	Jijie = "冬";
              		break;
 		default: Jijie = "NONE";break;
-	}	
+	}
 }
 
-string query_jijie() 
-{ 
+string query_jijie()
+{
 	update_jijie();
-	return Jijie; 
-}	
+	return Jijie;
+}
 
 void init_day_phase()
 {
@@ -173,13 +173,13 @@ void init_day_phase()
 
 	local = localtime(TIME_TICK1);
 	t = local[2] * 60 + local[1];           // hour * 60 + minutes
-	
+
 	for( i=0; i < sizeof(day_phase); i++)
 	{
 		if( t >= day_phase[i]["length"] )
 			t -= (int)day_phase[i]["length"];
 		else	break;
-	}	
+	}
 	current_day_phase = (i==0? sizeof(day_phase)-1: i - 1);
 	current_month = local[4];
 
@@ -217,13 +217,13 @@ void update_day_phase()
                			else 	tell_object(inusers[i],day_phase[current_day_phase]["time_msg"]+"\n");
              		}
             		else	tell_object(inusers[i],day_phase[current_day_phase]["time_msg"]+"\n");
-          	}     
+          	}
        }
        call_out("update_day_phase", day_phase[current_day_phase]["length"]);
 }
 
 void event_midnight()
-{       
+{
 	update_jijie();
 	switch(Jijie)
 	{
@@ -266,12 +266,12 @@ void event_midnight()
 // This is called everyday noon by update_day_phase, defined in the
 // "event_fun" field in /adm/etc/nature/day_phase
 int online_user()
-{ 
+{
 	int i,ppl_cnt;
 	object *usr = users();
-	for(i=0; i<sizeof(usr); i++) 
+	for(i=0; i<sizeof(usr); i++)
 	{
-		if( !environment(usr[i]) ) 
+		if( !environment(usr[i]) )
 			continue;
 		ppl_cnt++;
 	}
@@ -283,7 +283,7 @@ void event_sunrise()
 	int avg_num,record_num,online_num,total_num,times;
         string avg_temp,total_temp,times_temp;
         object *user=users();
-        
+
         online_num = online_user();
         times = atoi(read_file(__DIR__"record_times",1));
         times++;
@@ -333,27 +333,27 @@ mapping *read_table(string file)
 
 	line = explode(read_file(file), "\n");
 	data = ({});
-	for(i=0; i<sizeof(line); i++) 
+	for(i=0; i<sizeof(line); i++)
 	{
-		if( line[i]=="" || line[i][0]=='#' ) 
+		if( line[i]=="" || line[i][0]=='#' )
 			continue;
-		if( !pointerp(field) ) 
+		if( !pointerp(field) )
 		{
 			field = explode( line[i], ":" );
 			continue;
 		}
-		if( !pointerp(format) ) 
+		if( !pointerp(format) )
 		{
 			format = explode( line[i], ":" );
 			continue;
 		}
 		break;
 	}
-	for( rn = 0, fn = 0; i<sizeof(line); i++) 
+	for( rn = 0, fn = 0; i<sizeof(line); i++)
 	{
-		if( line[i]=="" || line[i][0]=='#' ) 
+		if( line[i]=="" || line[i][0]=='#' )
 			continue;
-		if( !fn ) 
+		if( !fn )
 			data += ({ allocate_mapping(sizeof(field)) });
 		sscanf( line[i], format[fn], data[rn][field[fn]] );
 		fn = (++fn) % sizeof(field);
@@ -366,7 +366,7 @@ mapping *query_day_phase() { return day_phase; }
 
 string query_time_wuxing()
 {
-	string shi,*sym_dee = ({ "子","丑","寅","卯","辰","巳","午","未","申","酉","戌","亥" });	
+	string shi,*sym_dee = ({ "子","丑","寅","卯","辰","巳","午","未","申","酉","戌","亥" });
 	int t = ((time()-1150000000)*60);
 	mixed *local = localtime(t);
 	shi = sym_dee[(local[2]%24)/2];
