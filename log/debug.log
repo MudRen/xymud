@@ -1,11 +1,12 @@
 ========================================================================
-Full Command Line: F:\Favorites\mudren-Lib-master\driver.exe config.ini 
-Boot Time: Fri Apr 09 19:57:37 2021
-Version: fluffos v2019.20210304-10-ge3db3bb1 (Microsoft Windows)
+Full Command Line: driver config.ini 
+Boot Time: Sat Jan 22 13:14:34 2022
+Version: fluffos v2019.20210429-84-g17ce4a93 (Linux/x86-64)
 jemalloc Version: 5.2.1-0-gea6b3e973b477b8061e0076bb257dbd7f3faa756
-ICU Version: 68.2
+ICU Version: 63.1
+Backtrace support: libdw.
+Core Dump: No, Max FD: 65535.
 ========================================================================
-Warning: Signal handler installation failed, not backtrace on crash!
 Final Debug Level: 0
 Processing config file: config.ini
 *Warning: obsolete line in config file, please delete:
@@ -16,8 +17,7 @@ Processing config file: config.ini
 	swap file 
 New Debug log location: "log/debug.log".
 Initializing internal stuff ....
-Event backend in use: win32
-WARNING: Platform doesn't support eval limit!
+Event backend in use: epoll
 ==== Runtime Config Table ====
 time to clean up : 600
 time to reset : 900
@@ -28,12 +28,12 @@ maximum evaluation cost : 30000000
 maximum local variables : 64
 maximum call depth : 200 # default: 150
 maximum array size : 15000
-maximum buffer size : 400000
+maximum buffer size : 1048576
 maximum mapping size : 150000
-maximum string length : 1600000 # default: 200000
+maximum string length : 1600000 # default: 1048576
 maximum bits in a bitfield : 12000
-maximum byte transfer : 200000
-maximum read file size : 200000
+maximum byte transfer : 262144
+maximum read file size : 262144
 hash table size : 65536
 object table size : 65536 # default: 4096
 living hash table size : 4096 # default: 256
@@ -88,7 +88,7 @@ enable mssp : 1
 #define MUDOS 
 #define MUD_NAME "小雨西游"
 #define SIZEOFINT 8
-#define __ARCH__ "Microsoft Windows"
+#define __ARCH__ "Linux/x86-64"
 #define __ARGUMENTS_IN_TRACEBACK__ 
 #define __ARRAY_STATS__ 
 #define __AUTO_SETEUID__ 
@@ -100,10 +100,10 @@ enable mssp : 1
 #define __CFG_MAX_GLOBAL_VARIABLES__ 65536
 #define __CLASS_STATS__ 
 #define __COMMAND_BUF_SIZE__ 2000
-#define __COMPILER__ "C:/msys64/mingw64/bin/g++.exe"
+#define __COMPILER__ "/usr/bin/c++"
 #define __CXXFLAGS__ "Broken"
 #define __DEBUG_MACRO__ 
-#define __DEFAULT_DB__ 1
+#define __DEFAULT_DB__ 2
 #define __DEFAULT_PRAGMAS__ PRAGMA_WARNINGS + PRAGMA_SAVE_TYPES + PRAGMA_ERROR_CONTEXT + PRAGMA_OPTIMIZE
 #define __DSLIB__ 
 #define __ED_INDENT_SPACES__ 4
@@ -113,6 +113,7 @@ enable mssp : 1
 #define __HAVE_DIRENT_H__ 1
 #define __HAVE_JEMALLOC__ 1
 #define __HAVE_SIGNAL_H__ 1
+#define __HAVE_SYS_RESOURCE_H__ 1
 #define __HAVE_SYS_STAT_H__ 1
 #define __HAVE_SYS_TIME_H__ 1
 #define __HAVE_TIME_H__ 1
@@ -143,7 +144,7 @@ enable mssp : 1
 #define __PARSE_DEBUG__ 
 #define __PORT__ 5555
 #define __PRIVS__ 
-#define __PROJECT_VERSION__ "fluffos v2019.20210304-10-ge3db3bb1"
+#define __PROJECT_VERSION__ "fluffos v2019.20210429-84-g17ce4a93"
 #define __RANDOMIZED_RESETS__ 
 #define __RECEIVE_SNOOP__ 
 #define __REF_RESERVED_WORD__ 
@@ -164,7 +165,8 @@ enable mssp : 1
 #define __TRAP_CRASHES__ 
 #define __USE_32BIT_ADDRESSES__ 
 #define __USE_MYSQL__ 1
-#define __VERSION__ "fluffos v2019.20210304-10-ge3db3bb1"
+#define __USE_SQLITE3__ 2
+#define __VERSION__ "fluffos v2019.20210429-84-g17ce4a93"
 #define __WARN_OLD_RANGE_BEHAVIOR__ 
 ========================
 Loading simul_efun file : /adm/obj/simul_efun
@@ -201,6 +203,3 @@ Accepting telnet connections on 0.0.0.0:6666.
 Accepting websocket connections on 0.0.0.0:8888.
 Initializations complete.
 
-closed external ports
-clear_call_outs: 6 leftover callouts cleared.
-clear_tick_events: 12 leftover events cleared.

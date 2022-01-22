@@ -133,7 +133,7 @@ void logon(object ob)
         }
 // by canoe 防止恶意reconnet造成系统崩溃
 	cat(WELCOME);
-	write("       请选择你要使用的内码("HIW"gb/big5"NOR")！使用国标码的玩家请键入：gb\n");
+	write("       请选择你要使用的内码("HIW"gb/big5/utf8"NOR")！直接回车使用默认utf-8编码。\n");
 	write("       Welcome to "BLINK HIY"XYCQ!"NOR" Select 国标码 GB or き絏 BIG5 (gb/big5):\n\n\n");
 	input_to( (: encoding :), ob );
 }
@@ -145,31 +145,13 @@ private void encoding(string arg, object ob)
 	string ip_name, ip_number, online_num;
 	int ii;
 	mixed info;
-	int encode;
 	string msg;
 
-	if(!arg || arg=="") 
-	{
-		write("\nSelect 国标码 GB or き絏 BIG5 (gb/big5):");
-		input_to( (: encoding :), ob );
-		return;
-	} 
-	else if(arg[0..0]=="g" || arg[0..0]=="G")
-		encode=0;
-	else if(arg[0..0]=="b" || arg[0..0]=="B")
-		encode=1;
-	else	
-	{
-		write("\nSelect 国标码 GB or き絏 BIG5 (gb/big5):");
-		input_to( (: encoding :), ob );
-		return;
-	}
-	if(encode==1){
+	if (arg[0..0] == "g" || arg[0..0] == "G")
+		set_encoding("GBK");
+	else if (arg[0..0] == "b" || arg[0..0] == "B")
 		set_encoding("big5");
-	}
-	else{
-	set_encoding("GBK");
-       }
+
 	ip_name = query_ip_number(ob);
 	ip_number = query_ip_number(ob);
 

@@ -1,1 +1,1 @@
-/adm/daemons/newsd.c line 267: Warning: Unused local variable 'sign' before the end of line
+/cmds/std/go.c line 285: Warning: Unused local variable 'my_dex' before the end of line
